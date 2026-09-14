@@ -172,6 +172,74 @@ class TestIdentityMode:
         assert signature(restore(compressed).units) == signature(claim_evidence.units)
 
 
+class TestAblationArms:
+    """The arms that make the central claim falsifiable.
+
+    Both keep a constant fraction regardless of uncertainty. If they matched the
+    uncertainty arm at equal budget, the proposal would add nothing.
+    """
+
+    def test_fixed_ratio_ignores_uncertainty(self, claim_evidence, cfg):
+        from src.compression import _fixed_ratio
+
+        counts = []
+        for uncertainty in (0.0, 0.5, 1.0):
+            item = evidence_from_units(list(claim_evidence.units))
+            item.uncertainty = uncertainty
+            counts.append(len(_fixed_ratio(item, cfg).kept))
+        assert len(set(counts)) == 1, f"fixed arm varied with uncertainty: {counts}"
+
+    def test_fixed_ratio_keeps_highest_scoring(self, claim_evidence, cfg):
+        compressed = compress([claim_evidence], cfg=cfg, mode="fixed_ratio")[0]
+        if compressed.dropped:
+            assert min(u.retrieval_score for u in compressed.kept) >= max(
+                u.retrieval_score for u in compressed.dropped
+            )
+
+    def test_random_arm_is_reproducible(self, claim_evidence, cfg):
+        """A seeded arm, or the ablation could not be rerun."""
+        first = compress([claim_evidence], cfg=cfg, mode="random")[0]
+        second = compress([claim_evidence], cfg=cfg, mode="random")[0]
+        assert [u.text for u in first.kept] == [u.text for u in second.kept]
+
+    def test_random_arm_ignores_score_order(self, cfg):
+        """It must actually be random, or it is just a second fixed_ratio arm."""
+        from src.types import EvidenceUnit, Span
+
+        units = [
+            EvidenceUnit(span=Span("d", i, i + 1), text=f"unit {i}", token_count=1)
+            for i in range(40)
+        ]
+        for i, u in enumerate(units):
+            u.retrieval_score = 1.0 - i * 0.01
+        item = ClaimEvidence(claim="c", units=units, token_count=len(units))
+
+        compressed = compress([item], cfg=cfg, mode="random")[0]
+        ranked_top = {u.text for u in sorted(units, key=lambda x: -x.retrieval_score)[
+            : len(compressed.kept)
+        ]}
+        assert {u.text for u in compressed.kept} != ranked_top
+
+    @pytest.mark.parametrize("mode", ["fixed_ratio", "random"])
+    def test_ablation_arms_are_reversible(self, claim_evidence, corpus, cfg, mode):
+        """Reversibility is a property of the design, not of one mode."""
+        original = signature(claim_evidence.units)
+        compressed = compress([claim_evidence], cfg=cfg, mode=mode)[0]
+        assert signature(restore(compressed).units) == original
+        assert signature(restore_from_corpus(compressed, corpus).units) == original
+
+    @pytest.mark.parametrize("mode", ["fixed_ratio", "random"])
+    def test_ablation_arms_conserve_units(self, claim_evidence, cfg, mode):
+        compressed = compress([claim_evidence], cfg=cfg, mode=mode)[0]
+        assert len(compressed.kept) + len(compressed.dropped) == len(
+            claim_evidence.units
+        )
+
+    def test_unknown_mode_raises(self, claim_evidence, cfg):
+        with pytest.raises(ValueError, match="unknown compression mode"):
+            compress([claim_evidence], cfg=cfg, mode="nonsense")
+
+
 class TestClaimEvidenceView:
     def test_view_exposes_only_kept_units(self, claim_evidence, cfg):
         compressed = compress([claim_evidence], cfg=cfg)[0]
@@ -179,3 +247,217 @@ class TestClaimEvidenceView:
         assert view.units == compressed.kept
         assert view.token_count == compressed.compressed_token_count
         assert view.claim == compressed.claim
+
+
+class TestFixedTokenBudget:
+    """Budgeting in units lets a claim with long chunks quietly spend more than one with
+    short chunks. A cost-constrained deployment would budget in tokens; so does this arm."""
+
+    def test_respects_the_token_budget(self, claim_evidence, cfg):
+        cfg["compression"] = dict(cfg["compression"], token_budget=12)
+        compressed = compress([claim_evidence], cfg=cfg, mode="fixed_tokens")[0]
+        assert compressed.compressed_token_count <= 12
+
+    def test_keeps_the_highest_ranked_evidence(self, claim_evidence, cfg):
+        cfg["compression"] = dict(cfg["compression"], token_budget=12)
+        compressed = compress([claim_evidence], cfg=cfg, mode="fixed_tokens")[0]
+        best = max(claim_evidence.units, key=lambda u: u.retrieval_score)
+        assert best in compressed.kept
+
+    def test_always_keeps_the_floor_even_under_a_tiny_budget(self, claim_evidence, cfg):
+        """A claim with no evidence at all cannot be evaluated; the floor prevents it."""
+        cfg["compression"] = dict(cfg["compression"], token_budget=1)
+        compressed = compress([claim_evidence], cfg=cfg, mode="fixed_tokens")[0]
+        assert len(compressed.kept) >= 1
+
+    def test_round_trip_still_exact(self, claim_evidence, corpus, cfg):
+        cfg["compression"] = dict(cfg["compression"], token_budget=12)
+        compressed = compress([claim_evidence], cfg=cfg, mode="fixed_tokens")[0]
+        assert signature(restore(compressed).units) == signature(
+            restore_from_corpus(compressed, corpus).units
+        )
+
+
+class TestOracleArm:
+    """The oracle reads the answer key. It measures headroom and cannot be deployed, so
+    the tests here are as much about preventing misuse as about behaviour."""
+
+    def test_requires_explicit_spans(self, claim_evidence, cfg):
+        """Silently degrading to another policy would report a ceiling that is not one."""
+        with pytest.raises(ValueError, match="oracle mode requires oracle_spans"):
+            compress([claim_evidence], cfg=cfg, mode="oracle")
+
+    def test_keeps_only_units_overlapping_marked_evidence(self, claim_evidence, cfg):
+        target = claim_evidence.units[1]
+        spans = {(target.span.doc_id, target.span.start, target.span.end)}
+        compressed = compress(
+            [claim_evidence], cfg=cfg, mode="oracle", oracle_spans=spans
+        )[0]
+        assert target in compressed.kept
+        assert all(u.span.doc_id == target.span.doc_id for u in compressed.kept)
+
+    def test_partial_overlap_counts_as_a_hit(self, claim_evidence, cfg):
+        """Marked evidence is paragraph-level and chunks are sentences, so a chunk
+        typically covers only part of a marked span."""
+        target = claim_evidence.units[0]
+        spans = {(target.span.doc_id, target.span.start + 1, target.span.end + 500)}
+        compressed = compress(
+            [claim_evidence], cfg=cfg, mode="oracle", oracle_spans=spans
+        )[0]
+        assert target in compressed.kept
+
+    def test_falls_back_rather_than_keeping_nothing(self, claim_evidence, cfg):
+        """An empty oracle would score zero and misreport the ceiling as unreachable."""
+        compressed = compress(
+            [claim_evidence], cfg=cfg, mode="oracle",
+            oracle_spans={("no_such_doc", 0, 10)},
+        )[0]
+        assert len(compressed.kept) == 1
+
+    def test_round_trip_still_exact(self, claim_evidence, corpus, cfg):
+        target = claim_evidence.units[1]
+        spans = {(target.span.doc_id, target.span.start, target.span.end)}
+        compressed = compress(
+            [claim_evidence], cfg=cfg, mode="oracle", oracle_spans=spans
+        )[0]
+        assert signature(restore(compressed).units) == signature(
+            restore_from_corpus(compressed, corpus).units
+        )
+
+    def test_oracle_spans_are_rejected_by_every_other_mode(self, claim_evidence, cfg):
+        """The answer key must not influence a mode that claims not to see it."""
+        target = claim_evidence.units[1]
+        spans = {(target.span.doc_id, target.span.start, target.span.end)}
+        for mode in ("identity", "uncertainty_guided", "fixed_ratio", "random"):
+            with_key = compress(
+                [claim_evidence], cfg=cfg, mode=mode, oracle_spans=spans
+            )[0]
+            without = compress([claim_evidence], cfg=cfg, mode=mode)[0]
+            assert signature(with_key.kept) == signature(without.kept), mode
+
+
+class TestSeedOverride:
+    def test_different_seeds_select_differently(self, claim_evidence, cfg):
+        """Multi-seed reporting is only meaningful if the seed actually changes the draw."""
+        cfg["compression"] = dict(cfg["compression"], fixed_keep=0.5)
+        picks = {
+            tuple(sorted(u.text for u in compress(
+                [evidence_from_units(list(claim_evidence.units))],
+                cfg=cfg, mode="random", seed=s,
+            )[0].kept))
+            for s in range(12)
+        }
+        assert len(picks) > 1
+
+    def test_same_seed_is_reproducible(self, claim_evidence, cfg):
+        first = compress([claim_evidence], cfg=cfg, mode="random", seed=7)[0]
+        second = compress([claim_evidence], cfg=cfg, mode="random", seed=7)[0]
+        assert signature(first.kept) == signature(second.kept)
+
+
+class TestGradedRestoration:
+    """Full restoration is all-or-nothing: the moment anything looks wrong the claim
+    surrenders its entire saving, including the units correctly dropped. Restoration fires
+    on a quarter to a half of QASPER questions, so that is a lot of budget given back on
+    suspicion."""
+
+    def test_partial_restores_only_the_requested_count(self, claim_evidence, cfg):
+        from src.restoration import restore_partial
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        partial = restore_partial(compressed, 1)
+        assert len(partial.units) == len(compressed.kept) + 1
+
+    def test_partial_restores_the_best_dropped_evidence_first(self, claim_evidence, cfg):
+        from src.restoration import restore_partial
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        best_dropped = max(compressed.dropped, key=lambda u: u.retrieval_score)
+        assert best_dropped in restore_partial(compressed, 1).units
+
+    def test_zero_restores_nothing(self, claim_evidence, cfg):
+        from src.restoration import restore_partial
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        assert signature(restore_partial(compressed, 0).units) == signature(compressed.kept)
+
+    def test_partial_never_exceeds_full(self, claim_evidence, cfg):
+        from src.restoration import restore_partial
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        full = restore(compressed)
+        many = restore_partial(compressed, len(compressed.dropped) + 99)
+        assert signature(many.units) == signature(full.units)
+
+    def test_ladder_always_ends_at_full_restoration(self, claim_evidence, cfg):
+        """The guarantee that makes graded restoration safe to adopt: it can never
+        recover less than the policy it replaces, only reach it more cheaply."""
+        from src.restoration import restoration_ladder
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        for step in (1, 2, 3, 99):
+            ladder = restoration_ladder(compressed, step)
+            assert ladder[-1] == len(compressed.dropped), step
+            assert ladder == sorted(ladder)
+
+    def test_ladder_is_empty_when_nothing_was_dropped(self, claim_evidence, cfg):
+        from src.restoration import restoration_ladder
+
+        compressed = compress([claim_evidence], cfg=cfg, mode="identity")[0]
+        assert restoration_ladder(compressed, 2) == []
+
+    def test_partial_restoration_is_still_exactly_reversible(self, claim_evidence, corpus, cfg):
+        """Spans must survive partial restoration — the core guarantee is unconditional."""
+        from src.restoration import restore_partial
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        for unit in restore_partial(compressed, 1).units:
+            assert unit.verify_against(corpus)
+
+
+class TestNeighbourRestoration:
+    """Sentence chunking is what makes reversibility exact, but it severs a claim from its
+    context. A dropped chunk adjacent in the source text to a kept one is the cheapest
+    possible guess at that missing context — no model call, just adjacency."""
+
+    def test_restores_the_chunk_immediately_after_a_kept_one(self, claim_evidence, cfg):
+        from src.restoration import restore_neighbours
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        kept_ends = {(u.span.doc_id, u.span.end) for u in compressed.kept}
+        expected = [
+            u for u in compressed.dropped
+            if any(u.span.doc_id == d and abs(u.span.start - e) <= 2 for d, e in kept_ends)
+        ]
+        restored = restore_neighbours(compressed).units
+        for unit in expected:
+            assert unit in restored
+
+    def test_does_not_restore_distant_chunks(self, claim_evidence, cfg):
+        """The point is a cheap cohesion repair, not a disguised full restoration."""
+        from src.restoration import restore_neighbours
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        restored = restore_neighbours(compressed)
+        assert len(restored.units) <= len(compressed.kept) + len(compressed.dropped)
+
+    def test_never_loses_a_kept_unit(self, claim_evidence, cfg):
+        from src.restoration import restore_neighbours
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        restored = restore_neighbours(compressed).units
+        for unit in compressed.kept:
+            assert unit in restored
+
+    def test_nothing_dropped_means_nothing_added(self, claim_evidence, cfg):
+        from src.restoration import restore_neighbours
+
+        compressed = compress([claim_evidence], cfg=cfg, mode="identity")[0]
+        assert signature(restore_neighbours(compressed).units) == signature(compressed.kept)
+
+    def test_neighbours_are_still_exactly_reversible(self, claim_evidence, corpus, cfg):
+        from src.restoration import restore_neighbours
+
+        compressed = compress([claim_evidence], cfg=cfg)[0]
+        for unit in restore_neighbours(compressed).units:
+            assert unit.verify_against(corpus)

@@ -172,3 +172,69 @@ class TestRealScorer:
         evaluator.evaluate("something unrelated", [unit("oceans", OCEAN_TEXT)])
         second = evaluator.evaluate(BM25_CLAIM, [unit("bm25", BM25_TEXT)])
         assert first.support_score == pytest.approx(second.support_score)
+
+
+class TestScoringCache:
+    """The ablation scores the same (claim, premise) pair many times: every arm sees the
+    same question, the relative policy scores compressed and full sets, and graded
+    restoration scores each rung. Caching is the difference between a sweep taking minutes
+    and taking an hour."""
+
+    class CountingScorer(RelevanceScorer):
+        def __init__(self):
+            super().__init__(model_id="fake", threshold=0.5, device="cpu")
+            self.uncached_calls = 0
+
+        def _score_uncached(self, premises, claim):
+            self.uncached_calls += 1
+            return [0.5 + 0.01 * len(p) for p in premises]
+
+    def test_repeated_scoring_hits_the_cache(self):
+        scorer = self.CountingScorer()
+        first = scorer.score(["alpha", "beta"], "claim")
+        second = scorer.score(["alpha", "beta"], "claim")
+        assert first == second
+        assert scorer.uncached_calls == 1
+        assert scorer.cache_hits == 2
+
+    def test_only_the_missing_premises_are_computed(self):
+        scorer = self.CountingScorer()
+        scorer.score(["alpha"], "claim")
+        scorer.score(["alpha", "beta"], "claim")
+        assert scorer.uncached_calls == 2
+        assert scorer.cache_hits == 1
+
+    def test_a_different_claim_is_a_different_key(self):
+        """Caching on the premise alone would return one claim's score for another."""
+        scorer = self.CountingScorer()
+        scorer.score(["alpha"], "claim one")
+        scorer.score(["alpha"], "claim two")
+        assert scorer.uncached_calls == 2
+        assert scorer.cache_hits == 0
+
+    def test_duplicate_premises_in_one_call_are_scored_once(self):
+        scorer = self.CountingScorer()
+        scores = scorer.score(["alpha", "alpha", "beta"], "claim")
+        assert len(scores) == 3
+        assert scores[0] == scores[1]
+
+    def test_results_are_returned_in_input_order(self):
+        """Deduplication must not permute the output — callers index into it by position,
+        and `best_unit_index` would otherwise point at the wrong evidence."""
+        scorer = self.CountingScorer()
+        premises = ["mid", "a much longer premise", "short"]
+        scores = scorer.score(premises, "claim")
+        assert scores == [0.5 + 0.01 * len(p) for p in premises]
+
+    def test_order_is_preserved_when_answers_come_from_the_cache(self):
+        scorer = self.CountingScorer()
+        scorer.score(["beta"], "claim")  # warm one entry only
+        premises = ["alpha", "beta", "gamma-long"]
+        assert scorer.score(premises, "claim") == [
+            0.5 + 0.01 * len(p) for p in premises
+        ]
+
+    def test_empty_input_short_circuits(self):
+        scorer = self.CountingScorer()
+        assert scorer.score([], "claim") == []
+        assert scorer.uncached_calls == 0

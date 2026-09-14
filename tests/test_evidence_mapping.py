@@ -19,7 +19,7 @@ class StubRetriever:
         self.cfg = cfg
         self.calls: list[str] = []
 
-    def retrieve(self, query, top_k=None):
+    def retrieve(self, query, top_k=None, restrict_to=None):
         self.calls.append(query)
         k = top_k or 4
         return [

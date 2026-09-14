@@ -28,29 +28,98 @@ evidence cost back.
 
 ## Current Results
 
-Measured on the seeded 24-document KB over a 16-question eval set
-(`python scripts/run_eval.py`):
+Measured on **QASPER**: 287 expert-written questions over 110 real NLP papers. Full run
+records, with the commit and command that produced each, are in [`artifacts/`](artifacts/).
+See [`docs/PAPER-OUTLINE.md`](docs/PAPER-OUTLINE.md) for the write-up these support.
 
-| metric | no compression | uncertainty-guided |
+**Scope, stated up front:** this is *known-document* long-document QA, not open-corpus RAG.
+QASPER questions are asked about one named paper and are not self-identifying ("which
+datasets did *they* use?"), so retrieval is restricted to that paper. A deployed system
+would first have to *find* the document; we do not evaluate that step. Run without the
+restriction, the baseline scored ~1% F1 and abstained on 83% of answerable questions.
+
+### What the evidence supports
+
+> **Compression is not free.** An earlier version of this README claimed ~39% token
+> reduction "at no measurable quality cost". That held only on a Qwen2.5-0.5B generator,
+> which was too weak to exploit the evidence being removed. On Qwen2.5-1.5B the same
+> compression costs **5.4 answer-F1 points** (0.2497 → 0.1957, p=0.0001). The trade is
+> real and defensible; it was simply not the trade being claimed.
+
+**1. Reversible compression turns selection quality into a cost curve — and the exchange
+rate is set by how well the system detects its own losses.** Ranked selection beats random
+selection at the same nominal budget, and by *twice as much* once the loss detector is
+improved:
+
+| restoration trigger | detector miss rate (random) | ranked − random reduction |
 |---|---|---|
-| tokens sent to model | 2496 | 1414 |
-| **token reduction** | — | **43.3%** |
-| keyword recall (answer quality) | 56.7% | 60.0% |
-| restoration rate | 0% | 6.2% |
-| false abstain (answerable questions) | 0% | 0% |
-| correct abstain (unanswerable questions) | 100% | 100% |
-| reversibility on real evidence | PASS | PASS |
+| `absolute` (topical threshold) | 55.6% | **+14.2 pp** |
+| `relative` (vs full-set support) | 23.2% | **+26.3 pp** |
 
-Compression removes 43% of evidence tokens **without costing answer quality** — keyword
-recall is marginally higher with compression than without, consistent with the known
-"lost in the middle" effect where trimming weak evidence helps as much as it hurts.
-Abstention behaviour is identical to the uncompressed baseline. Restoration fires on 6.2%
-of questions — the cases where compression removed something that turned out to be
-needed, and recovered it.
+Random's realised reduction collapses from 39.0% to 17.9% under the better detector — its
+restoration rate rises from 48.8% to 76.0%, so it keeps handing its savings back. Ranked
+selection still returns 44.2%. Clustered over 109 papers, both p=0.0001.
 
-Caveats worth stating: 16 questions is a smoke test, not a benchmark, and keyword recall
-is a coarse quality proxy (it detects evidence destruction, it is not accuracy). Both
-arms are otherwise identical, so the comparison between them is fair.
+Answer quality is unaffected either way (ranked − random F1: +0.0024, p=0.85). In a
+reversible system, good selection buys **tokens, not accuracy** — which is the point.
+
+**2. Uncertainty-guided allocation adds nothing.** +0.0052 F1 vs a fixed ratio at matched
+budget, clustered CI [−0.0047, +0.0164], p=0.39 — inside the ±0.02 declared in advance, and
+the sign flips at a milder budget. The founding premise (*confident retrieval implies
+redundant evidence*) is false here: retrieval confidence carries almost no information
+about whether evidence answers the question — the top-ranked unit contains the gold answer
+22% of the time against a 12% chance baseline, correlation +0.045.
+
+**3. The restoration trigger misses most losses it exists to catch.** Scored against
+QASPER's human-marked answer evidence, `absolute` fails to fire on **76.5%** of questions
+where compression removed needed evidence, and 77.9% where it removed *all* of it.
+`relative` reduces that to 58.8% / 60.3%. Still poor, reported as the open problem rather
+than hidden — and it is now a measurable target where the project previously had an
+untested safety assertion.
+
+**4. An oracle selector reaches baseline quality at 48.9% reduction with a 0% miss rate.**
+On the 0.5B generator its quality edge over ranked selection was not significant (+0.0136,
+p=0.27) — consistent with that model being the bottleneck rather than the selector. What
+the oracle does establish unambiguously is the safety target: perfect selection never
+drops needed evidence, so a detector should be measured against 0%, not against the
+`absolute` trigger's 76.5%.
+
+**5. Results depend on the generator, so it is named everywhere.** Qwen2.5-0.5B is the
+default because the archived runs used it; Qwen2.5-1.5B is the robustness check and is
+where the compression cost becomes visible. Any compression result is implicitly a claim
+about the model it was measured on, and a cheap model will understate the cost.
+
+```bash
+# reproduce; every JSON records its own commit, config, dataset and model revisions
+python scripts/run_eval.py --questions data/qasper/questions.yaml --kb data/qasper/kb \
+  --no-contextualize --answer-style extractive --support-threshold 0.01 \
+  --set compression.max_keep=0.45 --set compression.min_keep=0.1 \
+  --modes identity uncertainty_guided fixed_ratio random oracle --random-seeds 20
+
+python scripts/make_bundle.py artifacts/qasper-main --check
+```
+
+### Reading the numbers honestly
+
+- **Two reductions are reported, and the smaller one is the real one.** 53.0% of *evidence*
+  tokens is **38.6% of the prompt**: the preamble, claim labels, title prefixes, question
+  and chat template do not compress. Quote the prompt figure.
+- **Intervals are clustered by paper.** Questions from one paper are correlated; treating
+  them as independent is pseudo-replication and reports a narrower interval than the data
+  supports.
+- **Random is a distribution over 20 seeds**, not one draw. Its reduction ranged
+  **27.8–52.7%** — a single unlucky draw would have put it level with ranked selection.
+  Our own earlier single-seed figure was inflated by 5 points.
+- **Thresholds are per-corpus.** The support threshold calibrated on the hand-built KB
+  abstains on ~half of *answerable* QASPER questions. Calibrate with
+  `scripts/calibrate_threshold.py`; never carry a threshold between corpora.
+
+### The earlier hand-built result
+
+The 24-document / 16-question run (43.3% reduction, keyword recall 56.7% → 60.0%) is kept
+in [`artifacts/handbuilt-16q/`](artifacts/handbuilt-16q/). It is a smoke test, not a
+benchmark, and two of its conclusions did not survive contact with real papers — see
+`docs/PAPER-OUTLINE.md`.
 
 ## How It Works
 

@@ -23,6 +23,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
 from .config import REPO_ROOT, load_config
+
+
 from .ingest import (
     IngestError,
     add_document,
@@ -32,6 +34,47 @@ from .ingest import (
 )
 from .pipeline import Pipeline
 from .retrieval import Retriever
+
+def server_config():
+    """Config for the reading room, which serves real uploaded papers.
+
+    The file defaults were calibrated on a 24-document hand-built corpus. Two of them are
+    actively wrong for real papers, and both were measured weeks before anyone noticed the
+    interface was still using them:
+
+      * title prefixing helps on short conceptual doc ids and *reverses* on real papers,
+        where a title slug repeats on every chunk (0.176 -> 0.004);
+      * the 0.15 support threshold sits above the median best-support of answerable
+        questions on real papers (0.080), so the interface refused questions its own
+        retrieved evidence covered.
+
+    Overridden here rather than in the file so every archived experiment stays
+    reproducible against the settings it recorded.
+    """
+    cfg = load_config()
+    block = cfg.get_path("server") or {}
+
+    cfg["evaluation"] = dict(
+        cfg["evaluation"],
+        contextualize=bool(block.get("contextualize", False)),
+    )
+    scorer = cfg.get_path("evaluation.scorer", "relevance")
+    scorers = dict(cfg["evaluation"]["scorers"])
+    scorers[scorer] = dict(
+        scorers[scorer], threshold=float(block.get("support_threshold", 0.01))
+    )
+    cfg["evaluation"] = dict(cfg["evaluation"], scorers=scorers)
+
+    if block.get("generation"):
+        cfg["models"] = dict(cfg["models"], generation=block["generation"])
+
+    cfg["abstain"] = dict(
+        cfg["abstain"],
+        gate=block.get("abstain_gate", "retrieval"),
+        low_retrieval_score=float(block.get("retrieval_floor", 0.40)),
+    )
+    return cfg
+
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +90,7 @@ class Engine:
     """
 
     def __init__(self) -> None:
-        self.cfg = load_config()
+        self.cfg = server_config()
         self._pipeline: Pipeline | None = None
         self._lock = threading.Lock()
         self.state = "idle"
@@ -169,6 +212,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._handle_ask()
             elif route == "/api/papers":
                 self._handle_add_paper()
+            elif route == "/api/extract":
+                self._handle_extract()
             elif route == "/api/papers/delete":
                 self._handle_delete_paper()
             else:
@@ -210,6 +255,19 @@ class Handler(BaseHTTPRequestHandler):
                 },
             }
         )
+
+    def _handle_extract(self) -> None:
+        """Pull text out of a PDF without storing it.
+
+        The upload flow used to add the paper the moment a file was chosen, while the
+        title and text fields stayed on screen — so the natural next click on "Add paper"
+        submitted an empty form and produced "That is too short to answer questions from"
+        on a paper that had in fact been added. Extraction and commitment are now separate:
+        choosing a file fills the form, and "Add paper" is the only thing that saves.
+        """
+        body = self._read_body()
+        text = extract_pdf_text(body)
+        self._json({"text": text, "characters": len(text)})
 
     def _handle_add_paper(self) -> None:
         content_type = self.headers.get("Content-Type", "")

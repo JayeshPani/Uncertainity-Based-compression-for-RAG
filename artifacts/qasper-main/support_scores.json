@@ -1,0 +1,2011 @@
+[
+  {
+    "query": "which multilingual approaches do they compare with?",
+    "paper": "cross_lingual_pre_training_based_transfer_for_zero_shot_neur",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.13780267536640167
+  },
+  {
+    "query": "what are the pivot-based baselines?",
+    "paper": "cross_lingual_pre_training_based_transfer_for_zero_shot_neur",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5935409665107727
+  },
+  {
+    "query": "which datasets did they experiment with?",
+    "paper": "cross_lingual_pre_training_based_transfer_for_zero_shot_neur",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.06037496030330658
+  },
+  {
+    "query": "what language pairs are explored?",
+    "paper": "cross_lingual_pre_training_based_transfer_for_zero_shot_neur",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0131588289514184
+  },
+  {
+    "query": "what ner models were evaluated?",
+    "paper": "pioner_datasets_and_baselines_for_armenian_named_entity_reco",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0752197727560997
+  },
+  {
+    "query": "what is the source of the news sentences?",
+    "paper": "pioner_datasets_and_baselines_for_armenian_named_entity_reco",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0494958870112896
+  },
+  {
+    "query": "did they use a crowdsourcing platform for manual annotations?",
+    "paper": "pioner_datasets_and_baselines_for_armenian_named_entity_reco",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.006650798954069614
+  },
+  {
+    "query": "what are the topics pulled from Reddit?",
+    "paper": "identifying_dogmatism_in_social_media_signals_and_models",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.18561287224292755
+  },
+  {
+    "query": "What predictive model do they build?",
+    "paper": "identifying_dogmatism_in_social_media_signals_and_models",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.049033500254154205
+  },
+  {
+    "query": "What accuracy does the proposed system achieve?",
+    "paper": "adversarial_learning_for_chinese_ner_from_crowd_annotations",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.06643878668546677
+  },
+  {
+    "query": "What crowdsourcing platform is used?",
+    "paper": "adversarial_learning_for_chinese_ner_from_crowd_annotations",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.16534528136253357
+  },
+  {
+    "query": "How do they match words before reordering them?",
+    "paper": "addressing_word_order_divergence_in_multilingual_neural_mach",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.6420592665672302
+  },
+  {
+    "query": "On how many language pairs do they show that preordering assisting language sentences helps translation quality?",
+    "paper": "addressing_word_order_divergence_in_multilingual_neural_mach",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9862475991249084
+  },
+  {
+    "query": "Which dataset(s) do they experiment with?",
+    "paper": "addressing_word_order_divergence_in_multilingual_neural_mach",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.12367415428161621
+  },
+  {
+    "query": "Which information about text structure is included in the corpus?",
+    "paper": "a_corpus_for_automatic_readability_assessment_and_text_simpl",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9940855503082275
+  },
+  {
+    "query": "Which information about typography is included in the corpus?",
+    "paper": "a_corpus_for_automatic_readability_assessment_and_text_simpl",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9850629568099976
+  },
+  {
+    "query": "On which benchmarks they achieve the state of the art?",
+    "paper": "improved_neural_relation_detection_for_knowledge_base_questi",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0003032785898540169
+  },
+  {
+    "query": "What they use in their propsoed framework?",
+    "paper": "improved_neural_relation_detection_for_knowledge_base_questi",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.00014978839317336679
+  },
+  {
+    "query": "What does KBQA abbreviate for",
+    "paper": "improved_neural_relation_detection_for_knowledge_base_questi",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.24246028065681458
+  },
+  {
+    "query": "What is te core component for KBQA?",
+    "paper": "improved_neural_relation_detection_for_knowledge_base_questi",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.07963887602090836
+  },
+  {
+    "query": "What experiments are proposed to test that upper layers produce context-specific embeddings?",
+    "paper": "how_contextual_are_contextualized_word_representations_compa",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9965137839317322
+  },
+  {
+    "query": "How do they calculate a static embedding for each word?",
+    "paper": "how_contextual_are_contextualized_word_representations_compa",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8697160482406616
+  },
+  {
+    "query": "What is the performance of BERT on the task?",
+    "paper": "sensitive_data_detection_and_classification_in_spanish_clini",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4746929109096527
+  },
+  {
+    "query": "What are the other algorithms tested?",
+    "paper": "sensitive_data_detection_and_classification_in_spanish_clini",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.01636183261871338
+  },
+  {
+    "query": "Does BERT reach the best performance among all the algorithms compared?",
+    "paper": "sensitive_data_detection_and_classification_in_spanish_clini",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9853796362876892
+  },
+  {
+    "query": "What are the clinical datasets used in the paper?",
+    "paper": "sensitive_data_detection_and_classification_in_spanish_clini",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.019577620550990105
+  },
+  {
+    "query": "how is model compactness measured?",
+    "paper": "massively_multilingual_neural_grapheme_to_phoneme_conversion",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.23079337179660797
+  },
+  {
+    "query": "what was the baseline?",
+    "paper": "massively_multilingual_neural_grapheme_to_phoneme_conversion",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0023562954738736153
+  },
+  {
+    "query": "what evaluation metrics were used?",
+    "paper": "massively_multilingual_neural_grapheme_to_phoneme_conversion",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4164626896381378
+  },
+  {
+    "query": "what datasets did they use?",
+    "paper": "massively_multilingual_neural_grapheme_to_phoneme_conversion",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.003691706107929349
+  },
+  {
+    "query": "What is the interannotator agreement for the human evaluation?",
+    "paper": "abstractive_summarization_for_low_resource_data_using_domain",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.007527942303568125
+  },
+  {
+    "query": "Who were the human evaluators used?",
+    "paper": "abstractive_summarization_for_low_resource_data_using_domain",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.08666840940713882
+  },
+  {
+    "query": "Is the template-based model realistic?",
+    "paper": "abstractive_summarization_for_low_resource_data_using_domain",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.28146520256996155
+  },
+  {
+    "query": "Is the student reflection data very different from the newspaper data?",
+    "paper": "abstractive_summarization_for_low_resource_data_using_domain",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.27378225326538086
+  },
+  {
+    "query": "What is the recent abstractive summarization method in this paper?",
+    "paper": "abstractive_summarization_for_low_resource_data_using_domain",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.8006608486175537
+  },
+  {
+    "query": "Why are prior knowledge distillation techniques models are ineffective in producing student models with vocabularies different from the original teacher models?",
+    "paper": "extreme_language_model_compression_with_optimal_subwords_and",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9943854808807373
+  },
+  {
+    "query": "What state-of-the-art compression techniques were used in the comparison?",
+    "paper": "extreme_language_model_compression_with_optimal_subwords_and",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9052976965904236
+  },
+  {
+    "query": "What evaluations methods do they take?",
+    "paper": "stereotyping_and_bias_in_the_flickr30k_dataset",
+    "answerable": false,
+    "split": "dev",
+    "weakest_claim_support": 0.02015930972993374
+  },
+  {
+    "query": "What is the size of the dataset?",
+    "paper": "stereotyping_and_bias_in_the_flickr30k_dataset",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.005115388426929712
+  },
+  {
+    "query": "Which methods are considered to find examples of biases and unwarranted inferences??",
+    "paper": "stereotyping_and_bias_in_the_flickr30k_dataset",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9430270791053772
+  },
+  {
+    "query": "What biases are found in the dataset?",
+    "paper": "stereotyping_and_bias_in_the_flickr30k_dataset",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.5454958081245422
+  },
+  {
+    "query": "What discourse relations does it work best/worst for?",
+    "paper": "improving_implicit_discourse_relation_classification_by_mode",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.47534438967704773
+  },
+  {
+    "query": "How much does this model improve state-of-the-art?",
+    "paper": "improving_implicit_discourse_relation_classification_by_mode",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.05434030666947365
+  },
+  {
+    "query": "Where is a question generation model used?",
+    "paper": "knowledge_based_machine_reading_comprehension",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8162636160850525
+  },
+  {
+    "query": "Were any of these tasks evaluated in any previous work?",
+    "paper": "assessing_bert_s_syntactic_abilities",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.031662143766880035
+  },
+  {
+    "query": "Do they build a model to automatically detect demographic, lingustic or psycological dimensons of people?",
+    "paper": "stateology_state_level_interactive_charting_of_language_feel",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.005299554206430912
+  },
+  {
+    "query": "Which demographic dimensions of people do they obtain?",
+    "paper": "stateology_state_level_interactive_charting_of_language_feel",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.01969442144036293
+  },
+  {
+    "query": "How do they obtain psychological dimensions of people?",
+    "paper": "stateology_state_level_interactive_charting_of_language_feel",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02392330951988697
+  },
+  {
+    "query": "What is the baseline?",
+    "paper": "medication_regimen_extraction_from_clinical_conversations",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.028333181515336037
+  },
+  {
+    "query": "Is the data de-identified?",
+    "paper": "medication_regimen_extraction_from_clinical_conversations",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.3784404695034027
+  },
+  {
+    "query": "What embeddings are used?",
+    "paper": "medication_regimen_extraction_from_clinical_conversations",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.21669402718544006
+  },
+  {
+    "query": "What datasets did they use for evaluation?",
+    "paper": "hierarchical_transformers_for_long_document_classification",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.02341518923640251
+  },
+  {
+    "query": "On top of BERT does the RNN layer work better or the transformer layer?",
+    "paper": "hierarchical_transformers_for_long_document_classification",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.45880889892578125
+  },
+  {
+    "query": "How was this data collected?",
+    "paper": "data_collection_for_interactive_learning_through_the_dialog",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.17040283977985382
+  },
+  {
+    "query": "What is the average length of dialog?",
+    "paper": "data_collection_for_interactive_learning_through_the_dialog",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.007580508943647146
+  },
+  {
+    "query": "How are models evaluated in this human-machine communication game?",
+    "paper": "learning_autocomplete_systems_as_a_communication_game",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.041922442615032196
+  },
+  {
+    "query": "How many participants were trying this communication game?",
+    "paper": "learning_autocomplete_systems_as_a_communication_game",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.05566997826099396
+  },
+  {
+    "query": "What user variations have been tested?",
+    "paper": "learning_autocomplete_systems_as_a_communication_game",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0017312535783275962
+  },
+  {
+    "query": "What are the baselines used?",
+    "paper": "learning_autocomplete_systems_as_a_communication_game",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.02054184302687645
+  },
+  {
+    "query": "Do they use off-the-shelf NLP systems to build their assitant?",
+    "paper": "multipurpose_intelligent_process_automation_via_conversation",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.008803591132164001
+  },
+  {
+    "query": "How does the IPA label data after interacting with users?",
+    "paper": "multipurpose_intelligent_process_automation_via_conversation",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.05988626927137375
+  },
+  {
+    "query": "What kind of repetitive and time-consuming activities does their assistant handle?",
+    "paper": "multipurpose_intelligent_process_automation_via_conversation",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.08969225734472275
+  },
+  {
+    "query": "How was the audio data gathered?",
+    "paper": "identification_of_indian_languages_using_ghost_vlad_pooling",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4626547396183014
+  },
+  {
+    "query": "What is the GhostVLAD approach?",
+    "paper": "identification_of_indian_languages_using_ghost_vlad_pooling",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9577633738517761
+  },
+  {
+    "query": "Which 7 Indian languages do they experiment with?",
+    "paper": "identification_of_indian_languages_using_ghost_vlad_pooling",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9336609244346619
+  },
+  {
+    "query": "What datasets do they evaluate on?",
+    "paper": "unsupervised_learning_of_syntactic_structure_with_invertible",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.008077174425125122
+  },
+  {
+    "query": "Do they evaluate only on English datasets?",
+    "paper": "unsupervised_learning_of_syntactic_structure_with_invertible",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.001405171467922628
+  },
+  {
+    "query": "What is the invertibility condition?",
+    "paper": "unsupervised_learning_of_syntactic_structure_with_invertible",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.18106025457382202
+  },
+  {
+    "query": "Do they show on which examples how conflict works better than attention?",
+    "paper": "conflict_as_an_inverse_of_attention_in_sequence_relationship",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7198916077613831
+  },
+  {
+    "query": "Which neural architecture do they use as a base for their attention conflict mechanisms?",
+    "paper": "conflict_as_an_inverse_of_attention_in_sequence_relationship",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.26855844259262085
+  },
+  {
+    "query": "On which tasks do they test their conflict method?",
+    "paper": "conflict_as_an_inverse_of_attention_in_sequence_relationship",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.04274335876107216
+  },
+  {
+    "query": "Do they use graphical models?",
+    "paper": "multilingual_clustering_of_streaming_news",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0006116317235864699
+  },
+  {
+    "query": "What are the sources of the datasets?",
+    "paper": "multilingual_clustering_of_streaming_news",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.06837872415781021
+  },
+  {
+    "query": "What metric is used for evaluation?",
+    "paper": "multilingual_clustering_of_streaming_news",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.028623828664422035
+  },
+  {
+    "query": "Which eight NER tasks did they evaluate on?",
+    "paper": "inexpensive_domain_adaptation_of_pretrained_language_models_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9369849562644958
+  },
+  {
+    "query": "What in-domain text did they use?",
+    "paper": "inexpensive_domain_adaptation_of_pretrained_language_models_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0026635685935616493
+  },
+  {
+    "query": "Does their framework automatically optimize for hyperparameters?",
+    "paper": "toward_multilingual_neural_machine_translation_with_universa",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.02815055288374424
+  },
+  {
+    "query": "Does their framework always generate purely attention-based models?",
+    "paper": "toward_multilingual_neural_machine_translation_with_universa",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.005644814111292362
+  },
+  {
+    "query": "Do they test their framework performance on commonly used language pairs, such as English-to-German?",
+    "paper": "toward_multilingual_neural_machine_translation_with_universa",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.13698631525039673
+  },
+  {
+    "query": "Which languages do they test on for the under-resourced scenario?",
+    "paper": "toward_multilingual_neural_machine_translation_with_universa",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.7203460931777954
+  },
+  {
+    "query": "Are the automatically constructed datasets subject to quality control?",
+    "paper": "what_does_my_qa_model_know_devising_controlled_probes_using_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.26320719718933105
+  },
+  {
+    "query": "Do they focus on Reading Comprehension or multiple choice question answering?",
+    "paper": "what_does_my_qa_model_know_devising_controlled_probes_using_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5617541670799255
+  },
+  {
+    "query": "After how many hops does accuracy decrease?",
+    "paper": "what_does_my_qa_model_know_devising_controlled_probes_using_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0065020788460969925
+  },
+  {
+    "query": "How do they control for annotation artificats?",
+    "paper": "what_does_my_qa_model_know_devising_controlled_probes_using_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.047307658940553665
+  },
+  {
+    "query": "Is WordNet useful for taxonomic reasoning for this task?",
+    "paper": "what_does_my_qa_model_know_devising_controlled_probes_using_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02380836009979248
+  },
+  {
+    "query": "How do they perform multilingual training?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.35633623600006104
+  },
+  {
+    "query": "What languages are evaluated?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.016674324870109558
+  },
+  {
+    "query": "Does the model have attention?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0026845333632081747
+  },
+  {
+    "query": "What architecture does the decoder have?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.026247382164001465
+  },
+  {
+    "query": "What architecture does the encoder have?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.06905540823936462
+  },
+  {
+    "query": "What is MSD prediction?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.49508410692214966
+  },
+  {
+    "query": "What type of inflections are considered?",
+    "paper": "copenhagen_at_conll_sigmorphon_2018_multilingual_inflection_",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.02579852193593979
+  },
+  {
+    "query": "Do they use attention?",
+    "paper": "stochastic_answer_networks_for_squad_2_0",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.006434187293052673
+  },
+  {
+    "query": "What other models do they compare to?",
+    "paper": "stochastic_answer_networks_for_squad_2_0",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02353641763329506
+  },
+  {
+    "query": "What is the architecture of the span detector?",
+    "paper": "stochastic_answer_networks_for_squad_2_0",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.10147357732057571
+  },
+  {
+    "query": "What evaluation metric do they use?",
+    "paper": "clustering_comparable_corpora_of_russian_and_ukrainian_acade",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.034295763820409775
+  },
+  {
+    "query": "What are the results from these proposed strategies?",
+    "paper": "how_to_avoid_being_eaten_by_a_grue_exploration_strategies_fo",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0004154634661972523
+  },
+  {
+    "query": "What are the baselines?",
+    "paper": "how_to_avoid_being_eaten_by_a_grue_exploration_strategies_fo",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0014430753653869033
+  },
+  {
+    "query": "What are the two new strategies?",
+    "paper": "how_to_avoid_being_eaten_by_a_grue_exploration_strategies_fo",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.003117916639894247
+  },
+  {
+    "query": "Do they report results only on English data?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.024883531033992767
+  },
+  {
+    "query": "How much better than the baseline is LiLi?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.810523509979248
+  },
+  {
+    "query": "What baseline is used in the experiments?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0016242037527263165
+  },
+  {
+    "query": "In what way does LiLi imitate how humans acquire knowledge and perform inference during an interactive conversation?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.999890923500061
+  },
+  {
+    "query": "What metrics are used to establish that this makes chatbots more knowledgeable and better at learning and conversation?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9457841515541077
+  },
+  {
+    "query": "What are the components of the general knowledge learning engine?",
+    "paper": "towards_a_continuous_knowledge_learning_engine_for_chatbots",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.88694828748703
+  },
+  {
+    "query": "How many labels do the datasets have?",
+    "paper": "adaptive_semi_supervised_learning_for_cross_domain_sentiment",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.09081195294857025
+  },
+  {
+    "query": "What is the architecture of the model?",
+    "paper": "adaptive_semi_supervised_learning_for_cross_domain_sentiment",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0045302738435566425
+  },
+  {
+    "query": "What are the baseline methods?",
+    "paper": "adaptive_semi_supervised_learning_for_cross_domain_sentiment",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.06382852792739868
+  },
+  {
+    "query": "What are the source and target domains?",
+    "paper": "adaptive_semi_supervised_learning_for_cross_domain_sentiment",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5577791333198547
+  },
+  {
+    "query": "Did they use a crowdsourcing platform for annotations?",
+    "paper": "how_big_is_big_enough_unsupervised_word_sense_disambiguation",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0034924731589853764
+  },
+  {
+    "query": "How do they deal with unknown distribution senses?",
+    "paper": "how_big_is_big_enough_unsupervised_word_sense_disambiguation",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.3217591345310211
+  },
+  {
+    "query": "Do they report results only on English data?",
+    "paper": "women_in_isis_propaganda_a_natural_language_processing_analy",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.012491357512772083
+  },
+  {
+    "query": "What conclusions do the authors draw from their finding that the emotional appeal of ISIS and Catholic materials are similar?",
+    "paper": "women_in_isis_propaganda_a_natural_language_processing_analy",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9966764450073242
+  },
+  {
+    "query": "How id Depechemood trained?",
+    "paper": "women_in_isis_propaganda_a_natural_language_processing_analy",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7220498323440552
+  },
+  {
+    "query": "How are similarities and differences between the texts from violent and non-violent religious groups analyzed?",
+    "paper": "women_in_isis_propaganda_a_natural_language_processing_analy",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9804925322532654
+  },
+  {
+    "query": "How are prominent topics idenified in Dabiq and Rumiyah?",
+    "paper": "women_in_isis_propaganda_a_natural_language_processing_analy",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9479816555976868
+  },
+  {
+    "query": "Are the images from a specific domain?",
+    "paper": "going_beneath_the_surface_evaluating_image_captioning_for_gr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.005457558669149876
+  },
+  {
+    "query": "Which datasets are used?",
+    "paper": "going_beneath_the_surface_evaluating_image_captioning_for_gr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02636617235839367
+  },
+  {
+    "query": "Which existing models are evaluated?",
+    "paper": "going_beneath_the_surface_evaluating_image_captioning_for_gr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.3481281101703644
+  },
+  {
+    "query": "How is diversity measured?",
+    "paper": "going_beneath_the_surface_evaluating_image_captioning_for_gr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.05324380844831467
+  },
+  {
+    "query": "What state-of-the-art deep neural network is used?",
+    "paper": "integrating_boundary_assembling_into_a_dnn_framework_for_nam",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.5367339849472046
+  },
+  {
+    "query": "What boundary assembling method is used?",
+    "paper": "integrating_boundary_assembling_into_a_dnn_framework_for_nam",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9150292873382568
+  },
+  {
+    "query": "What are previous state of the art results?",
+    "paper": "integrating_boundary_assembling_into_a_dnn_framework_for_nam",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.11880362778902054
+  },
+  {
+    "query": "What is the model performance on target language reading comprehension?",
+    "paper": "zero_shot_reading_comprehension_by_cross_lingual_transfer_le",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4435592293739319
+  },
+  {
+    "query": "What source-target language pairs were used in this work?",
+    "paper": "zero_shot_reading_comprehension_by_cross_lingual_transfer_le",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.46051648259162903
+  },
+  {
+    "query": "What model is used as a baseline?",
+    "paper": "zero_shot_reading_comprehension_by_cross_lingual_transfer_le",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0037213617470115423
+  },
+  {
+    "query": "what does the model learn in zero-shot setting?",
+    "paper": "zero_shot_reading_comprehension_by_cross_lingual_transfer_le",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9977397918701172
+  },
+  {
+    "query": "Do they inspect their model to see if their model learned to associate image parts with words related to entities?",
+    "paper": "multimodal_named_entity_recognition_for_short_social_media_p",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0028882126789540052
+  },
+  {
+    "query": "Does their NER model learn NER from both text and images?",
+    "paper": "multimodal_named_entity_recognition_for_short_social_media_p",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.006384226959198713
+  },
+  {
+    "query": "Which types of named entities do they recognize?",
+    "paper": "multimodal_named_entity_recognition_for_short_social_media_p",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9045720100402832
+  },
+  {
+    "query": "Can named entities in SnapCaptions be discontigious?",
+    "paper": "multimodal_named_entity_recognition_for_short_social_media_p",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9407492280006409
+  },
+  {
+    "query": "How large is their MNER SnapCaptions dataset?",
+    "paper": "multimodal_named_entity_recognition_for_short_social_media_p",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8117681741714478
+  },
+  {
+    "query": "What is masked document generation?",
+    "paper": "step_sequence_to_sequence_transformer_pre_training_for_docum",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7279008626937866
+  },
+  {
+    "query": "Which of the three pretraining tasks is the most helpful?",
+    "paper": "step_sequence_to_sequence_transformer_pre_training_for_docum",
+    "answerable": false,
+    "split": "dev",
+    "weakest_claim_support": 0.9896073937416077
+  },
+  {
+    "query": "What useful information does attention capture?",
+    "paper": "what_does_attention_in_neural_machine_translation_pay_attent",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9724947214126587
+  },
+  {
+    "query": "What datasets are used?",
+    "paper": "what_does_attention_in_neural_machine_translation_pay_attent",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.016992850229144096
+  },
+  {
+    "query": "In what cases is attention different from alignment?",
+    "paper": "what_does_attention_in_neural_machine_translation_pay_attent",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9977865219116211
+  },
+  {
+    "query": "How do they calculate variance from the model outputs?",
+    "paper": "active_learning_for_speech_recognition_the_power_of_gradient",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0107297757640481
+  },
+  {
+    "query": "How much data samples do they start with before obtaining the initial model labels?",
+    "paper": "active_learning_for_speech_recognition_the_power_of_gradient",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0013840944739058614
+  },
+  {
+    "query": "Which model do they use for end-to-end speech recognition?",
+    "paper": "active_learning_for_speech_recognition_the_power_of_gradient",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.1934448927640915
+  },
+  {
+    "query": "Which dataset do they use?",
+    "paper": "active_learning_for_speech_recognition_the_power_of_gradient",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0004490274877753109
+  },
+  {
+    "query": "Which baselines did they compare against?",
+    "paper": "dynamic_compositionality_in_recursive_neural_networks_with_s",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0012429505586624146
+  },
+  {
+    "query": "What baselines did they consider?",
+    "paper": "causal_explanation_analysis_on_social_media",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.00031388027127832174
+  },
+  {
+    "query": "What types of social media did they consider?",
+    "paper": "causal_explanation_analysis_on_social_media",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.030190536752343178
+  },
+  {
+    "query": "How was the dataset annotated?",
+    "paper": "an_evaluation_dataset_for_intent_classification_and_out_of_s",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.045274730771780014
+  },
+  {
+    "query": "Which classifiers are evaluated?",
+    "paper": "an_evaluation_dataset_for_intent_classification_and_out_of_s",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4200762212276459
+  },
+  {
+    "query": "What is the size of this dataset?",
+    "paper": "an_evaluation_dataset_for_intent_classification_and_out_of_s",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.23784886300563812
+  },
+  {
+    "query": "Where does the data come from?",
+    "paper": "an_evaluation_dataset_for_intent_classification_and_out_of_s",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.17510080337524414
+  },
+  {
+    "query": "What are method improvements of F1 for paraphrase identification?",
+    "paper": "dice_loss_for_data_imbalanced_nlp_tasks",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.7531087398529053
+  },
+  {
+    "query": "What are method's improvements of F1 for NER task for English and Chinese datasets?",
+    "paper": "dice_loss_for_data_imbalanced_nlp_tasks",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5788534879684448
+  },
+  {
+    "query": "What are method's improvements of F1 w.r.t. baseline BERT tagger for Chinese POS datasets?",
+    "paper": "dice_loss_for_data_imbalanced_nlp_tasks",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.7269632816314697
+  },
+  {
+    "query": "How are weights dynamically adjusted?",
+    "paper": "dice_loss_for_data_imbalanced_nlp_tasks",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.19241483509540558
+  },
+  {
+    "query": "Ngrams of which length are aligned using PARENT?",
+    "paper": "handling_divergent_reference_texts_when_evaluating_table_to_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.011340095661580563
+  },
+  {
+    "query": "How many people participated in their evaluation study of table-to-text models?",
+    "paper": "handling_divergent_reference_texts_when_evaluating_table_to_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5345197916030884
+  },
+  {
+    "query": "By how much more does PARENT correlate with human judgements in comparison to other text generation metrics?",
+    "paper": "handling_divergent_reference_texts_when_evaluating_table_to_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9545533061027527
+  },
+  {
+    "query": "Which stock market sector achieved the best performance?",
+    "paper": "multimodal_deep_learning_for_short_term_stock_volatility_pre",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.05792110040783882
+  },
+  {
+    "query": "What languages pairs are used in machine translation?",
+    "paper": "quasi_recurrent_neural_networks",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0067435516975820065
+  },
+  {
+    "query": "What sentiment classification dataset is used?",
+    "paper": "quasi_recurrent_neural_networks",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.49160775542259216
+  },
+  {
+    "query": "What pooling function is used?",
+    "paper": "quasi_recurrent_neural_networks",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.11043498665094376
+  },
+  {
+    "query": "Do they report results only on English?",
+    "paper": "neuronblocks_building_your_nlp_dnn_models_like_playing_lego",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0004297111590858549
+  },
+  {
+    "query": "What neural network modules are included in NeuronBlocks?",
+    "paper": "neuronblocks_building_your_nlp_dnn_models_like_playing_lego",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7356312870979309
+  },
+  {
+    "query": "How do the authors evidence the claim that many engineers find it a big overhead to choose from multiple frameworks, models and optimization techniques?",
+    "paper": "neuronblocks_building_your_nlp_dnn_models_like_playing_lego",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9996004700660706
+  },
+  {
+    "query": "what datasets did they use?",
+    "paper": "a_comprehensive_comparison_of_machine_learning_based_methods",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.006677639205008745
+  },
+  {
+    "query": "what ml based approaches were compared?",
+    "paper": "a_comprehensive_comparison_of_machine_learning_based_methods",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.020876212045550346
+  },
+  {
+    "query": "Is pre-training effective in their evaluation?",
+    "paper": "english_japanese_neural_machine_translation_with_encoder_dec",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.605541467666626
+  },
+  {
+    "query": "What parallel corpus did they use?",
+    "paper": "english_japanese_neural_machine_translation_with_encoder_dec",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.041468165814876556
+  },
+  {
+    "query": "How much does their model outperform existing models?",
+    "paper": "extractive_summarization_of_long_documents_by_combining_glob",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.019779209047555923
+  },
+  {
+    "query": "What do they mean by global and local context?",
+    "paper": "extractive_summarization_of_long_documents_by_combining_glob",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7319537997245789
+  },
+  {
+    "query": "What are the 18 propaganda techniques?",
+    "paper": "findings_of_the_nlp4if_2019_shared_task_on_fine_grained_prop",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.973808765411377
+  },
+  {
+    "query": "What dataset was used?",
+    "paper": "findings_of_the_nlp4if_2019_shared_task_on_fine_grained_prop",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.004582586698234081
+  },
+  {
+    "query": "What was the baseline for this task?",
+    "paper": "findings_of_the_nlp4if_2019_shared_task_on_fine_grained_prop",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.23099958896636963
+  },
+  {
+    "query": "What is a second order co-ocurrence matrix?",
+    "paper": "improving_correlation_with_human_judgments_by_integrating_se",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9933004379272461
+  },
+  {
+    "query": "How many humans participated?",
+    "paper": "improving_correlation_with_human_judgments_by_integrating_se",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.03457487374544144
+  },
+  {
+    "query": "What embedding techniques are explored in the paper?",
+    "paper": "improving_correlation_with_human_judgments_by_integrating_se",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.24960294365882874
+  },
+  {
+    "query": "Do the authors also try the model on other datasets?",
+    "paper": "character_level_question_answering_with_attention",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0038645875174552202
+  },
+  {
+    "query": "What word level and character level model baselines are used?",
+    "paper": "character_level_question_answering_with_attention",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9331061244010925
+  },
+  {
+    "query": "By how much do they improve the efficacy of the attention mechanism?",
+    "paper": "improving_the_performance_of_neural_machine_translation_invo",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.9584169983863831
+  },
+  {
+    "query": "How were the human judgements assembled?",
+    "paper": "improving_the_performance_of_neural_machine_translation_invo",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.00728242751210928
+  },
+  {
+    "query": "Did they only experiment with one language pair?",
+    "paper": "to_swap_or_not_to_swap_exploiting_dependency_word_pairs_for_",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.029437853023409843
+  },
+  {
+    "query": "Which other approaches do they compare their model with?",
+    "paper": "fine_grained_named_entity_recognition_using_elmo_and_wikidat",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.12679213285446167
+  },
+  {
+    "query": "What results do they achieve using their proposed approach?",
+    "paper": "fine_grained_named_entity_recognition_using_elmo_and_wikidat",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0003923906187992543
+  },
+  {
+    "query": "How do they combine a deep learning model with a knowledge base?",
+    "paper": "fine_grained_named_entity_recognition_using_elmo_and_wikidat",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.3547492027282715
+  },
+  {
+    "query": "What are the models used for the baseline of the three NLP tasks?",
+    "paper": "a_resource_for_computational_experiments_on_mapudungun",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.8716880679130554
+  },
+  {
+    "query": "How is non-standard pronunciation identified?",
+    "paper": "a_resource_for_computational_experiments_on_mapudungun",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.40853509306907654
+  },
+  {
+    "query": "Is it valid to presume a bad medical wikipedia article should not contain much domain-specific jargon?",
+    "paper": "a_matter_of_words_nlp_for_quality_evaluation_of_wikipedia_me",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.14812663197517395
+  },
+  {
+    "query": "What novel PMI variants are introduced?",
+    "paper": "why_so_down_the_role_of_negative_and_positive_pointwise_mutu",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.023905934765934944
+  },
+  {
+    "query": "What semantic and syntactic tasks are used as probes?",
+    "paper": "why_so_down_the_role_of_negative_and_positive_pointwise_mutu",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.8745565414428711
+  },
+  {
+    "query": "What are the disadvantages to clipping negative PMI?",
+    "paper": "why_so_down_the_role_of_negative_and_positive_pointwise_mutu",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.4462113380432129
+  },
+  {
+    "query": "Why are statistics from finite corpora unreliable?",
+    "paper": "why_so_down_the_role_of_negative_and_positive_pointwise_mutu",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9949693083763123
+  },
+  {
+    "query": "what is the domain of the corpus?",
+    "paper": "towards_speech_to_text_translation_without_speech_recognitio",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.09622621536254883
+  },
+  {
+    "query": "what challenges are identified?",
+    "paper": "towards_speech_to_text_translation_without_speech_recognitio",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.05898335576057434
+  },
+  {
+    "query": "what is the size of the speech corpus?",
+    "paper": "towards_speech_to_text_translation_without_speech_recognitio",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.09497332572937012
+  },
+  {
+    "query": "Which two pairs of ERPs from the literature benefit from joint training?",
+    "paper": "understanding_language_elicited_eeg_data_by_predicting_it_fr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9986746311187744
+  },
+  {
+    "query": "What datasets are used?",
+    "paper": "understanding_language_elicited_eeg_data_by_predicting_it_fr",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.021305309608578682
+  },
+  {
+    "query": "which datasets did they experiment with?",
+    "paper": "external_lexical_information_for_multilingual_part_of_speech",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.002623619744554162
+  },
+  {
+    "query": "which languages are explored?",
+    "paper": "external_lexical_information_for_multilingual_part_of_speech",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.03944627568125725
+  },
+  {
+    "query": "Do they use number of votes as an indicator of preference?",
+    "paper": "disunited_nations_a_multiplex_network_approach_to_detecting_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02872874215245247
+  },
+  {
+    "query": "What does a node in the network approach repesent?",
+    "paper": "disunited_nations_a_multiplex_network_approach_to_detecting_",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.042369645088911057
+  },
+  {
+    "query": "Which dataset do they use?",
+    "paper": "disunited_nations_a_multiplex_network_approach_to_detecting_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0009666461264714599
+  },
+  {
+    "query": "What kind of celebrities do they obtain tweets from?",
+    "paper": "the_trumpiest_trump_identifying_a_subject_s_most_characteris",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.09270597994327545
+  },
+  {
+    "query": "How did they extend LAMA evaluation framework to focus on negation?",
+    "paper": "negated_lama_birds_cannot_fly",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.5241659879684448
+  },
+  {
+    "query": "What summarization algorithms did the authors experiment with?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4532233774662018
+  },
+  {
+    "query": "What evaluation metrics were used for the summarization task?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.03198912739753723
+  },
+  {
+    "query": "What clustering algorithms were used?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.04276826232671738
+  },
+  {
+    "query": "What evaluation metrics are looked at for classification tasks?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0020059433300048113
+  },
+  {
+    "query": "What methods were used for sentence classification?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.15273308753967285
+  },
+  {
+    "query": "What is the average length of the sentences?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.01324513740837574
+  },
+  {
+    "query": "What is the size of the real-life dataset?",
+    "paper": "mining_supervisor_evaluation_and_peer_feedback_in_performanc",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.005701585207134485
+  },
+  {
+    "query": "What are the language pairs explored in this paper?",
+    "paper": "sparse_and_constrained_attention_for_neural_machine_translat",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.07344364374876022
+  },
+  {
+    "query": "Do they experiment with the toolkits?",
+    "paper": "gluoncv_and_gluonnlp_deep_learning_in_computer_vision_and_na",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0029587396420538425
+  },
+  {
+    "query": "Have they made any attempt to correct MRC gold standards according to their findings?",
+    "paper": "a_framework_for_evaluation_of_machine_reading_comprehension_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.6728242635726929
+  },
+  {
+    "query": "What features are absent from MRC gold standards that can result in potential lexical ambiguity?",
+    "paper": "a_framework_for_evaluation_of_machine_reading_comprehension_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.8926683664321899
+  },
+  {
+    "query": "What modern MRC gold standards are analyzed?",
+    "paper": "a_framework_for_evaluation_of_machine_reading_comprehension_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.6858510375022888
+  },
+  {
+    "query": "How does proposed qualitative annotation schema looks like?",
+    "paper": "a_framework_for_evaluation_of_machine_reading_comprehension_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9652240872383118
+  },
+  {
+    "query": "How many tweets were collected?",
+    "paper": "an_iterative_approach_for_identifying_complaint_based_tweets",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.20469462871551514
+  },
+  {
+    "query": "What language is explored in this paper?",
+    "paper": "an_iterative_approach_for_identifying_complaint_based_tweets",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.00019646642613224685
+  },
+  {
+    "query": "What are the baselines?",
+    "paper": "bridging_the_gap_between_pre_training_and_fine_tuning_for_en",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.6977809071540833
+  },
+  {
+    "query": "What is the attention module pretrained on?",
+    "paper": "bridging_the_gap_between_pre_training_and_fine_tuning_for_en",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8688107132911682
+  },
+  {
+    "query": "How long of dialog history is captured?",
+    "paper": "dialog_context_language_modeling_with_recurrent_neural_netwo",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0069364700466394424
+  },
+  {
+    "query": "What evaluation metrics were used?",
+    "paper": "mitigating_the_impact_of_speech_recognition_errors_on_spoken",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.012705403380095959
+  },
+  {
+    "query": "What was the score of the proposed model?",
+    "paper": "mitigating_the_impact_of_speech_recognition_errors_on_spoken",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.38590025901794434
+  },
+  {
+    "query": "What was the previous best model?",
+    "paper": "mitigating_the_impact_of_speech_recognition_errors_on_spoken",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.24858003854751587
+  },
+  {
+    "query": "Which datasets did they use for evaluation?",
+    "paper": "mitigating_the_impact_of_speech_recognition_errors_on_spoken",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.02015761472284794
+  },
+  {
+    "query": "What hyperparameters are explored?",
+    "paper": "word2vec_optimal_hyper_parameters_and_their_impact_on_nlp_do",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.30512285232543945
+  },
+  {
+    "query": "What Named Entity Recognition dataset is used?",
+    "paper": "word2vec_optimal_hyper_parameters_and_their_impact_on_nlp_do",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.3975365459918976
+  },
+  {
+    "query": "What sentiment analysis dataset is used?",
+    "paper": "word2vec_optimal_hyper_parameters_and_their_impact_on_nlp_do",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5075893998146057
+  },
+  {
+    "query": "Do they test both skipgram and c-bow?",
+    "paper": "word2vec_optimal_hyper_parameters_and_their_impact_on_nlp_do",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.005937144625931978
+  },
+  {
+    "query": "What is the state-of-the-art model for the task?",
+    "paper": "table_to_text_generation_with_effective_hierarchical_encoder",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.22331266105175018
+  },
+  {
+    "query": "What is the strong baseline?",
+    "paper": "table_to_text_generation_with_effective_hierarchical_encoder",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.006379134953022003
+  },
+  {
+    "query": "what aspects of conversation flow do they look at?",
+    "paper": "conversational_flow_in_oxford_style_debates",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9046316146850586
+  },
+  {
+    "query": "what debates dataset was used?",
+    "paper": "conversational_flow_in_oxford_style_debates",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5799001455307007
+  },
+  {
+    "query": "what is the state of the art?",
+    "paper": "robust_named_entity_recognition_in_idiosyncratic_domains",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.001438264618627727
+  },
+  {
+    "query": "what standard dataset were used?",
+    "paper": "robust_named_entity_recognition_in_idiosyncratic_domains",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.07455276697874069
+  },
+  {
+    "query": "Do they perform error analysis?",
+    "paper": "offensive_language_detection_a_comparative_analysis",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.006480694282799959
+  },
+  {
+    "query": "How do their results compare to state-of-the-art?",
+    "paper": "offensive_language_detection_a_comparative_analysis",
+    "answerable": false,
+    "split": "test",
+    "weakest_claim_support": 0.016110166907310486
+  },
+  {
+    "query": "What is the Random Kitchen Sink approach?",
+    "paper": "offensive_language_detection_a_comparative_analysis",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5646383166313171
+  },
+  {
+    "query": "what are the baseline systems?",
+    "paper": "edinburgh_neural_machine_translation_systems_for_wmt_16",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.24220417439937592
+  },
+  {
+    "query": "What word embeddings do they test?",
+    "paper": "equation_embeddings",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.8444218039512634
+  },
+  {
+    "query": "How do they define similar equations?",
+    "paper": "equation_embeddings",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.1590062528848648
+  },
+  {
+    "query": "What evaluation criteria and metrics were used to evaluate the generated text?",
+    "paper": "template_free_data_to_text_generation_of_finnish_sports_news",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.37906163930892944
+  },
+  {
+    "query": "Do they evaluate only on English datasets?",
+    "paper": "feature_studies_to_inform_the_classification_of_depressive_s",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.003975880332291126
+  },
+  {
+    "query": "What are the three steps to feature elimination?",
+    "paper": "feature_studies_to_inform_the_classification_of_depressive_s",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.9418614506721497
+  },
+  {
+    "query": "How is the dataset annotated?",
+    "paper": "feature_studies_to_inform_the_classification_of_depressive_s",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.42014989256858826
+  },
+  {
+    "query": "What dataset is used for this study?",
+    "paper": "feature_studies_to_inform_the_classification_of_depressive_s",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.00395171158015728
+  },
+  {
+    "query": "what were their performance results?",
+    "paper": "extracting_clinical_concepts_from_user_queries",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.058162666857242584
+  },
+  {
+    "query": "where did they obtain the annotated clinical notes from?",
+    "paper": "extracting_clinical_concepts_from_user_queries",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.6787784695625305
+  },
+  {
+    "query": "Which architecture do they use for the encoder and decoder?",
+    "paper": "attention_based_wav2text_with_feature_transfer_learning",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5700254440307617
+  },
+  {
+    "query": "How does their decoder generate text?",
+    "paper": "attention_based_wav2text_with_feature_transfer_learning",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.024800308048725128
+  },
+  {
+    "query": "Which dataset do they use?",
+    "paper": "attention_based_wav2text_with_feature_transfer_learning",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0011730146361514926
+  },
+  {
+    "query": "What model is used to encode the images?",
+    "paper": "contextualize_show_and_tell_a_neural_visual_storyteller",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.3829699158668518
+  },
+  {
+    "query": "How is the sequential nature of the story captured?",
+    "paper": "contextualize_show_and_tell_a_neural_visual_storyteller",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0196900125592947
+  },
+  {
+    "query": "Is the position in the sequence part of the input?",
+    "paper": "contextualize_show_and_tell_a_neural_visual_storyteller",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.031290434300899506
+  },
+  {
+    "query": "Do the decoder LSTMs all have the same weights?",
+    "paper": "contextualize_show_and_tell_a_neural_visual_storyteller",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5101388096809387
+  },
+  {
+    "query": "Is fine-tuning required to incorporate these embeddings into existing models?",
+    "paper": "dolores_deep_contextualized_knowledge_graph_embeddings",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8186141848564148
+  },
+  {
+    "query": "How are meaningful chains in the graph selected?",
+    "paper": "dolores_deep_contextualized_knowledge_graph_embeddings",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.03095509111881256
+  },
+  {
+    "query": "Do the authors also analyze transformer-based architectures?",
+    "paper": "neural_network_models_for_paraphrase_identification_semantic",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0011046197032555938
+  },
+  {
+    "query": "Do they remove seasonality from the time series?",
+    "paper": "sentiment_analysis_of_twitter_data_for_predicting_stock_mark",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0003312906192149967
+  },
+  {
+    "query": "What is the dimension of the embeddings?",
+    "paper": "sentiment_analysis_of_twitter_data_for_predicting_stock_mark",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.000986772240139544
+  },
+  {
+    "query": "What dataset is used to train the model?",
+    "paper": "sentiment_analysis_of_twitter_data_for_predicting_stock_mark",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.3633882701396942
+  },
+  {
+    "query": "What is the previous state of the art?",
+    "paper": "tttttackling_winogrande_schemas",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.062436141073703766
+  },
+  {
+    "query": "Which text embedding methodologies are used?",
+    "paper": "from_free_text_to_clusters_of_content_in_health_records_an_u",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.49087029695510864
+  },
+  {
+    "query": "Which race and gender are given higher sentiment intensity predictions?",
+    "paper": "examining_gender_and_race_bias_in_two_hundred_sentiment_anal",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9526486992835999
+  },
+  {
+    "query": "What criteria are used to select the 8,640 English sentences?",
+    "paper": "examining_gender_and_race_bias_in_two_hundred_sentiment_anal",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.23445837199687958
+  },
+  {
+    "query": "what were the baselines?",
+    "paper": "jasper_an_end_to_end_convolutional_neural_acoustic_model",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.0009268191643059254
+  },
+  {
+    "query": "what competitive results did they obtain?",
+    "paper": "jasper_an_end_to_end_convolutional_neural_acoustic_model",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.040315743535757065
+  },
+  {
+    "query": "By how much is performance improved with multimodality?",
+    "paper": "towards_multimodal_understanding_of_passenger_vehicle_intera",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.3030720055103302
+  },
+  {
+    "query": "Is collected multimodal in cabin dataset public?",
+    "paper": "towards_multimodal_understanding_of_passenger_vehicle_intera",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7108975648880005
+  },
+  {
+    "query": "What is the performance reported for the best models in the VLSP 2018 and VLSP 2019 challenges?",
+    "paper": "vais_asr_building_a_conversational_speech_recognition_system",
+    "answerable": false,
+    "split": "dev",
+    "weakest_claim_support": 0.9508752226829529
+  },
+  {
+    "query": "Is the model tested against any baseline?",
+    "paper": "vais_asr_building_a_conversational_speech_recognition_system",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.003664046060293913
+  },
+  {
+    "query": "What is the language model combination technique used in the paper?",
+    "paper": "vais_asr_building_a_conversational_speech_recognition_system",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9657617211341858
+  },
+  {
+    "query": "What are the deep learning architectures used in the task?",
+    "paper": "vais_asr_building_a_conversational_speech_recognition_system",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0033392738550901413
+  },
+  {
+    "query": "How much is performance improved on NLI?",
+    "paper": "symmetric_regularization_based_bert_for_pair_wise_semantic_r",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.14007951319217682
+  },
+  {
+    "query": "Do they train their model starting from a checkpoint?",
+    "paper": "symmetric_regularization_based_bert_for_pair_wise_semantic_r",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.005159645341336727
+  },
+  {
+    "query": "What BERT model do they test?",
+    "paper": "symmetric_regularization_based_bert_for_pair_wise_semantic_r",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.39253851771354675
+  },
+  {
+    "query": "What downstream tasks are evaluated?",
+    "paper": "impact_of_batch_size_on_stopping_active_learning_for_text_cl",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.0012206179089844227
+  },
+  {
+    "query": "What is active learning?",
+    "paper": "impact_of_batch_size_on_stopping_active_learning_for_text_cl",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.8830893635749817
+  },
+  {
+    "query": "what was the baseline?",
+    "paper": "exploiting_out_of_domain_parallel_data_through_multilingual_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.017269259318709373
+  },
+  {
+    "query": "How is segmentation quality evaluated?",
+    "paper": "automatic_discourse_segmentation_an_evaluation_in_french",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.16469742357730865
+  },
+  {
+    "query": "How do they compare lexicons?",
+    "paper": "crowdsourcing_for_beyond_polarity_sentiment_analysis_a_pure_",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.5591824650764465
+  },
+  {
+    "query": "Is it possible to convert a cloze-style questions to a naturally-looking questions?",
+    "paper": "simple_and_effective_semi_supervised_question_answering",
+    "answerable": false,
+    "split": "dev",
+    "weakest_claim_support": 0.6029859781265259
+  },
+  {
+    "query": "How larger are the training sets of these versions of ELMo compared to the previous ones?",
+    "paper": "high_quality_elmo_embeddings_for_seven_less_resourced_langua",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.7609215378761292
+  },
+  {
+    "query": "What is the improvement in performance for Estonian in the NER task?",
+    "paper": "high_quality_elmo_embeddings_for_seven_less_resourced_langua",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.08685033768415451
+  },
+  {
+    "query": "what is the state of the art on WSJ?",
+    "paper": "fully_convolutional_speech_recognition",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.4974289536476135
+  },
+  {
+    "query": "How did they obtain the OSG dataset?",
+    "paper": "affective_behaviour_analysis_of_on_line_user_interactions_ar",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.6908987760543823
+  },
+  {
+    "query": "How large is the Twitter dataset?",
+    "paper": "affective_behaviour_analysis_of_on_line_user_interactions_ar",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.4716983437538147
+  },
+  {
+    "query": "what is the size of the augmented dataset?",
+    "paper": "the_effect_of_heterogeneous_data_for_alzheimer_s_disease_det",
+    "answerable": true,
+    "split": "test",
+    "weakest_claim_support": 0.001130306045524776
+  },
+  {
+    "query": "How they utilize LDA and Gibbs sampling to evaluate ISWC and WWW publications?",
+    "paper": "natural_language_processing_via_lda_topic_model_in_recommend",
+    "answerable": true,
+    "split": "dev",
+    "weakest_claim_support": 0.9987640380859375
+  }
+]

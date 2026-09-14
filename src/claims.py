@@ -134,7 +134,10 @@ def _llm_decompose(query: str, max_claims: int, cfg: Config) -> list[str]:
         f"Question: {query}\nTopics:"
     )
     try:
-        raw = Generator(cfg=cfg).complete(prompt, max_new_tokens=128)
+        # Pinned to `prose`: this call wants a multi-line list of topics, and the
+        # `extractive` style explicitly forbids saying more than the answer itself.
+        # The answer style belongs to answering, not to decomposition.
+        raw = Generator(cfg=cfg, style="prose").complete(prompt, max_new_tokens=128)
     except Exception:  # noqa: BLE001 - decomposition must never break the pipeline
         return _heuristic_decompose(query, max_claims)
 

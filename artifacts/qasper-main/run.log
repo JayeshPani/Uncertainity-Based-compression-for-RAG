@@ -1,0 +1,201 @@
+=== RUN A: tight budget, absolute policy, all arms, random x20 ===
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Config override: compression.max_keep=0.45
+Config override: compression.min_keep=0.1
+Knowledge base: data/qasper/kb
+Title prefixing: off
+Support threshold: 0.01 (overridden)
+Loaded 287 questions. Building index...
+Generation model: Qwen/Qwen2.5-0.5B-Instruct
+Answer style: extractive
+Gold evidence: 567/676 passages aligned (83.9%); 66 table/figure, 43 unmatched. 255 questions scorable.
+Running arm: identity ...
+Running arm: uncertainty_guided ...
+Running arm: fixed_ratio (keep=0.289, budget-matched) ...
+Running arm: random (keep=0.289, budget-matched) ...
+  random over 20 seeds: reduction 27.8%–52.7%, F1 0.1436–0.1685
+Running arm: oracle ...
+
+==========================================================================
+UNCERTAINTY-GUIDED COMPRESSION — BASELINE COMPARISON
+==========================================================================
+
+Reversibility on real retrieved evidence: PASS  [287 claims checked]
+
+metric                                identity  uncertainty_guided         fixed_ratio              random              oracle
+------------------------------------------------------------------------------------------------------------------------------
+questions                                  287                 287                 287                 287                 287
+evidence tokens (baseline)               69127               69127               69127               69127               69127
+evidence tokens (sent)                   69127               32492               32353               42162               35299
+evidence reduction                        0.0%               53.0%               53.2%               39.0%               48.9%
+PROMPT tokens (sent)                    138263               84926               84775               98916               88567
+PROMPT reduction                          0.0%               38.6%               38.7%               28.5%               35.9%
+restoration rate                          0.0%               29.6%               31.4%               48.8%               41.1%
+answer F1 (vs gold)                      17.7%               16.5%               16.0%               15.6%               17.9%
+  length-implied ceiling                 69.8%               71.2%               69.9%               70.8%               72.6%
+  F1 as % of ceiling                     25.4%               23.2%               22.9%               22.0%               24.6%
+  answer words (mean)                      8.2                 7.9                 7.8                 8.7                 8.3
+  gold words (mean)                        9.0                 9.0                 9.0                 9.0                 9.0
+------------------------------------------------------------------------------------------------------------------------------
+gold evidence retrieved                  55.1%               55.1%               55.1%               55.1%               55.1%
+  ...surviving compression               55.1%               24.0%               22.3%               13.4%               55.1%
+needed evidence dropped                      0                 102                 107                 124                   0
+  restoration caught it                   0.0%               23.5%               28.0%               43.5%                0.0%
+  DANGEROUS: missed                       0.0%               76.5%               72.0%               55.6%                0.0%
+evidence lost ENTIRELY                       0                  68                  73                  95                   0
+  ...and missed                           0.0%               77.9%               71.2%               52.6%                0.0%
+------------------------------------------------------------------------------------------------------------------------------
+false abstain (answerable)               22.5%               22.5%               22.5%               22.5%               22.5%
+correct abstain (unansw.)                 9.1%                9.1%                9.1%                9.1%                9.1%
+elapsed (s)                              119.4               102.7                87.3              1853.1                89.6
+
+------------------------------------------------------------------------------------------------------------------------------
+COST: 36635 tokens saved (53.0% reduction), keyword recall +0.0% vs baseline.
+------------------------------------------------------------------------------------------------------------------------------
+ABLATION — does uncertainty guidance do the work?
+  budgets match: uncertainty 32492 tokens vs fixed 32353
+  answer F1: uncertainty 0.0052 better (0.1649 vs 0.1597, paired n=276, p=0.3801)
+  95% CI, questions independent: [-0.0064, +0.0167]
+  95% CI, clustered by paper: [-0.0047, +0.0164]  (p=0.3851, 109 papers)  <- primary
+  false abstain: uncertainty 0.0% the same
+  VERDICT: NO EFFECT, and the study is large enough to say so.
+           The 95% CI [-0.0047, +0.0164] excludes any difference
+           bigger than 0.020 answer F1 in either direction (n=276).
+           Uncertainty guidance does not beat a fixed budget at equal
+           cost. Collecting more questions will not change this.
+
+wrote artifacts/qasper-main/tight_absolute.json
+=== RUN B: tight budget, relative policy ===
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: de2bc3fe-5492-4dc7-a9b7-cd211848515e)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Config override: compression.max_keep=0.45
+Config override: compression.min_keep=0.1
+Config override: restoration.policy=relative
+Knowledge base: data/qasper/kb
+Title prefixing: off
+Support threshold: 0.01 (overridden)
+Loaded 287 questions. Building index...
+Generation model: Qwen/Qwen2.5-0.5B-Instruct
+Answer style: extractive
+Gold evidence: 567/676 passages aligned (83.9%); 66 table/figure, 43 unmatched. 255 questions scorable.
+Running arm: identity ...
+Running arm: uncertainty_guided ...
+Running arm: fixed_ratio (keep=0.289, budget-matched) ...
+Running arm: random (keep=0.289, budget-matched) ...
+  random over 5 seeds: reduction 10.7%–34.8%, F1 0.1597–0.1750
+
+==========================================================================
+UNCERTAINTY-GUIDED COMPRESSION — BASELINE COMPARISON
+==========================================================================
+
+Reversibility on real retrieved evidence: PASS  [287 claims checked]
+
+metric                                identity  uncertainty_guided         fixed_ratio              random
+----------------------------------------------------------------------------------------------------------
+questions                                  287                 287                 287                 287
+evidence tokens (baseline)               69127               69127               69127               69127
+evidence tokens (sent)                   69127               37647               38542               56756
+evidence reduction                        0.0%               45.5%               44.2%               17.9%
+PROMPT tokens (sent)                    138263               92451               93833              120055
+PROMPT reduction                          0.0%               33.1%               32.1%               13.2%
+restoration rate                          0.0%               37.6%               42.5%               76.0%
+answer F1 (vs gold)                      17.7%               17.3%               16.8%               16.9%
+  length-implied ceiling                 69.8%               70.7%               69.7%               70.0%
+  F1 as % of ceiling                     25.4%               24.5%               24.1%               24.2%
+  answer words (mean)                      8.2                 7.6                 7.6                 8.5
+  gold words (mean)                        9.0                 9.0                 9.0                 9.0
+----------------------------------------------------------------------------------------------------------
+gold evidence retrieved                  55.1%               55.1%               55.1%               55.1%
+  ...surviving compression               55.1%               24.0%               22.3%               12.7%
+needed evidence dropped                      0                 102                 107                 125
+  restoration caught it                   0.0%               41.2%               46.7%               76.8%
+  DANGEROUS: missed                       0.0%               58.8%               53.3%               23.2%
+evidence lost ENTIRELY                       0                  68                  73                  98
+  ...and missed                           0.0%               60.3%               54.8%               21.4%
+----------------------------------------------------------------------------------------------------------
+false abstain (answerable)               22.5%               22.5%               22.5%               22.5%
+correct abstain (unansw.)                 9.1%                9.1%                9.1%                9.1%
+elapsed (s)                              155.7               105.4                84.2               490.9
+
+----------------------------------------------------------------------------------------------------------
+COST: 31480 tokens saved (45.5% reduction), keyword recall +0.0% vs baseline.
+----------------------------------------------------------------------------------------------------------
+ABLATION — does uncertainty guidance do the work?
+  budgets match: uncertainty 37647 tokens vs fixed 38542
+  answer F1: uncertainty 0.0048 better (0.1732 vs 0.1683, paired n=276, p=0.4120)
+  95% CI, questions independent: [-0.0067, +0.0164]
+  95% CI, clustered by paper: [-0.0050, +0.0160]  (p=0.4336, 109 papers)  <- primary
+  false abstain: uncertainty 0.0% the same
+  VERDICT: NO EFFECT, and the study is large enough to say so.
+           The 95% CI [-0.0050, +0.0160] excludes any difference
+           bigger than 0.020 answer F1 in either direction (n=276).
+           Uncertainty guidance does not beat a fixed budget at equal
+           cost. Collecting more questions will not change this.
+
+wrote artifacts/qasper-main/tight_relative.json
+=== RUN C: mild budget, absolute policy ===
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Knowledge base: data/qasper/kb
+Title prefixing: off
+Support threshold: 0.01 (overridden)
+Loaded 287 questions. Building index...
+Generation model: Qwen/Qwen2.5-0.5B-Instruct
+Answer style: extractive
+Gold evidence: 567/676 passages aligned (83.9%); 66 table/figure, 43 unmatched. 255 questions scorable.
+Running arm: identity ...
+Running arm: uncertainty_guided ...
+Running arm: fixed_ratio (keep=0.648, budget-matched) ...
+Running arm: random (keep=0.648, budget-matched) ...
+  random over 5 seeds: reduction 23.8%–29.0%, F1 0.1493–0.1675
+
+==========================================================================
+UNCERTAINTY-GUIDED COMPRESSION — BASELINE COMPARISON
+==========================================================================
+
+Reversibility on real retrieved evidence: PASS  [287 claims checked]
+
+metric                                identity  uncertainty_guided         fixed_ratio              random
+----------------------------------------------------------------------------------------------------------
+questions                                  287                 287                 287                 287
+evidence tokens (baseline)               69127               69127               69127               69127
+evidence tokens (sent)                   69127               47823               48223               50338
+evidence reduction                        0.0%               30.8%               30.2%               27.2%
+PROMPT tokens (sent)                    138263              107625              108279              110755
+PROMPT reduction                          0.0%               22.2%               21.7%               19.9%
+restoration rate                          0.0%               24.4%               25.4%               28.2%
+answer F1 (vs gold)                      17.7%               16.2%               16.5%               16.0%
+  length-implied ceiling                 69.8%               69.9%               70.6%               70.2%
+  F1 as % of ceiling                     25.4%               23.2%               23.3%               22.7%
+  answer words (mean)                      8.2                 8.9                 8.5                 8.7
+  gold words (mean)                        9.0                 9.0                 9.0                 9.0
+----------------------------------------------------------------------------------------------------------
+gold evidence retrieved                  55.1%               55.1%               55.1%               55.1%
+  ...surviving compression               55.1%               41.7%               40.3%               35.5%
+needed evidence dropped                      0                  53                  54                  74
+  restoration caught it                   0.0%               13.2%               18.5%               20.3%
+  DANGEROUS: missed                       0.0%               86.8%               81.5%               79.7%
+evidence lost ENTIRELY                       0                  25                  25                  36
+  ...and missed                           0.0%               84.0%               76.0%               72.2%
+----------------------------------------------------------------------------------------------------------
+false abstain (answerable)               22.5%               22.5%               22.5%               22.5%
+correct abstain (unansw.)                 9.1%                9.1%                9.1%                9.1%
+elapsed (s)                              121.1               115.8                92.3               380.9
+
+----------------------------------------------------------------------------------------------------------
+COST: 21304 tokens saved (30.8% reduction), keyword recall +0.0% vs baseline.
+----------------------------------------------------------------------------------------------------------
+ABLATION — does uncertainty guidance do the work?
+  budgets match: uncertainty 47823 tokens vs fixed 48223
+  answer F1: uncertainty 0.0030 worse (0.1618 vs 0.1648, paired n=276, p=0.6003)
+  95% CI, questions independent: [-0.0141, +0.0082]
+  95% CI, clustered by paper: [-0.0147, +0.0072]  (p=0.6113, 109 papers)  <- primary
+  false abstain: uncertainty 0.0% the same
+  VERDICT: NO EFFECT, and the study is large enough to say so.
+           The 95% CI [-0.0147, +0.0072] excludes any difference
+           bigger than 0.020 answer F1 in either direction (n=276).
+           Uncertainty guidance does not beat a fixed budget at equal
+           cost. Collecting more questions will not change this.
+
+wrote artifacts/qasper-main/mild_absolute.json
+=== ALL RUNS COMPLETE ===

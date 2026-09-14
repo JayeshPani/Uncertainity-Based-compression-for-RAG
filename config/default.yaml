@@ -15,6 +15,52 @@ models:
   # torch device: "auto" picks mps on arm64 Macs, else cuda, else cpu.
   device: auto
 
+server:
+  # SETTINGS FOR THE READING ROOM, WHICH SERVES REAL UPLOADED PAPERS.
+  #
+  # The defaults below this block were calibrated on the 24-document hand-built corpus and
+  # are wrong for real papers in two ways that were each measured and then, for three
+  # weeks, never applied to the actual product:
+  #
+  #   contextualize: prefixing evidence with the document title measured +0.99 on the
+  #     hand-built corpus and REVERSES on real papers (0.176 -> 0.004), because a paper's
+  #     title slug repeats on every chunk and disambiguates nothing. On a real uploaded
+  #     paper it drove support for a genuine question from 0.118 down to 0.024.
+  #   support threshold: 0.15 is above the median best-support of *answerable* questions
+  #     on real papers (0.080), so the interface refused to answer questions its own
+  #     retrieved evidence covered.
+  #
+  # Together these made the reading room abstain on questions it could answer. Overriding
+  # them here rather than changing the defaults keeps every archived experiment
+  # reproducible.
+  contextualize: false
+  support_threshold: 0.01
+  # WHICH SIGNAL DECIDES A REFUSAL. "retrieval" for real papers.
+  #
+  # The support scorer cannot carry this decision on real documents. Measured on an
+  # uploaded literature survey, the sentence containing the answer scored 0.00085 while
+  # still being the top-ranked unit — the ranking is informative, the absolute scale is
+  # not. Any fixed cut therefore refuses everything or nothing, and refusing a question
+  # whose answer sits at rank 1 is the worst thing this interface can do.
+  #
+  # Cosine similarity is bounded, calibrated and comparable across corpora, so
+  # "nothing retrieved is even close" is a judgement it can actually support.
+  abstain_gate: retrieval
+  # Cosine floor below which the reading room refuses. Calibrated on 21 questions over
+  # real papers (Transformer, BERT, RAG, plus an uploaded AR/VR survey), and the two
+  # populations separate cleanly:
+  #     lowest in-scope question    0.453
+  #     highest out-of-scope        0.372   ("who is the president of Brazil?")
+  # 0.40 sits in that gap: 14/14 in-scope answered, 7/7 out-of-scope refused.
+  #
+  # The gap is what makes this signal usable where the support scorer was not — there,
+  # the answer-bearing sentence scored 0.00085 and nothing separated at all.
+  retrieval_floor: 0.40
+  # 1.5B is worth the extra ~2 GB here: measured F1 0.177 -> 0.250 on full evidence, and
+  # an oracle-selection run shows the generator, not the retriever, is what limits answer
+  # quality once evidence is chosen well.
+  generation: Qwen/Qwen2.5-1.5B-Instruct
+
 kb:
   path: data/kb
   # Sentence chunks shorter than this are merged into the neighbouring chunk, so that
@@ -27,6 +73,28 @@ retrieval:
   top_k: 8
   # Embeddings are cached to disk keyed by (model, corpus hash).
   cache_dir: .cache/embeddings
+
+rerank:
+  # SECOND-STAGE REORDERING BEFORE COMPRESSION DECIDES WHAT STAYS.
+  #
+  # Compression keeps the top-ranked units, and "top-ranked" meant bi-encoder cosine — a
+  # first-stage recall signal computed without the query and passage ever meeting. That is
+  # what makes it cheap enough to run over a corpus and what makes it blunt for choosing
+  # between eight candidates.
+  #
+  # The cost is measurable: retrieval surfaces 44-55% of the human-marked answer evidence
+  # but only ~20% survives compression. Much of that is ordering, not aggressiveness.
+  #
+  # Reuses the relevance cross-encoder already loaded for support scoring, so no new
+  # dependency. Costs one extra forward pass per claim over top_k candidates.
+  #
+  # Note it cannot recover evidence retrieval never returned — that is a first-stage
+  # recall problem, addressed by raising retrieval.top_k so the reranker has more to
+  # work with.
+  enabled: false
+  scorer: relevance
+  # Optional model override; defaults to evaluation.scorers.<scorer>.model.
+  model: null
 
 claims:
   # "heuristic" = deterministic rule-based splitter (default, testable, no model call).
@@ -54,6 +122,20 @@ compression:
   # Never drop below this many units for a claim, regardless of confidence.
   floor_units: 1
 
+  # Ablation arms. These exist to answer the question a reviewer asks first:
+  # "you saved tokens by dropping evidence — would dropping a fixed fraction do the
+  # same?" Both keep the SAME fraction on every claim, ignoring uncertainty, so the
+  # only variable is whether the budget is allocated adaptively.
+  #
+  #   fixed_ratio — keeps the top fraction by retrieval score
+  #   random      — keeps a random subset, isolating whether ranking matters at all
+  #
+  # scripts/run_eval.py overrides fixed_keep to match the uncertainty arm's realised
+  # budget, so the arms are compared at equal cost rather than equal settings.
+  fixed_keep: 0.6
+  # Fixed seed so the random arm is reproducible.
+  random_seed: 20260803
+
 evaluation:
   # Which support scorer to use. Both are real options, and switching between them is a
   # planned ablation — see src/evaluation.py for the measurements behind this default.
@@ -66,6 +148,14 @@ evaluation:
   # Claims here come from the query (claims.strategy), so relevance is the default.
   scorer: relevance
 
+  # Prefix each evidence chunk with its document title before scoring. Helps only when
+  # doc ids are short, meaningful concepts. Measured mean best-support, same claims:
+  #     hand-built corpus (24 docs):   with 0.997   without 0.004
+  #     QASPER (110 real papers):      with 0.004   without 0.176
+  # The gain on the hand-built corpus was an artefact of ids we chose ourselves. Set per
+  # corpus; do not assume.
+  contextualize: true
+
   # Evidence units are scored individually and the claim takes the best one. Measured:
   # concatenating a claim's units dropped its score from 0.997 to 0.510, because
   # irrelevant neighbours dilute the signal.
@@ -76,12 +166,94 @@ evaluation:
   scorers:
     relevance:
       model: cross-encoder/ms-marco-MiniLM-L-6-v2
-      # Measured over the 16-question eval set: lowest answerable claim scored 0.205,
-      # highest unanswerable scored 0.001. 0.15 sits inside that gap.
+      # PER-CORPUS. Calibrate with scripts/calibrate_threshold.py; do not carry a value
+      # from one corpus to another. The score scale is not comparable across corpora.
+      #
+      #   hand-built (24 docs): lowest answerable claim 0.205, highest unanswerable
+      #     0.001. 0.15 sits inside that gap, and the README numbers use it.
+      #   QASPER (110 papers): best-support on *answerable* questions has median 0.080 —
+      #     below this threshold. 0.15 abstains on 48% of dev / 54% of test questions the
+      #     paper demonstrably answers. Dev-calibrated value is 0.01; pass it with
+      #     `run_eval.py --support-threshold 0.01`.
+      #
+      # The QASPER curve is a bad trade at every setting: no threshold catches a
+      # meaningful share of unanswerable questions without destroying ~a third of the
+      # answerable ones. Measured separation is weak — the scorer's top-ranked unit is
+      # the one containing the gold answer only 22% of the time (12% would be chance),
+      # and correlation between support score and gold-answer overlap is +0.045.
       threshold: 0.15
     nli:
       model: MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli
       threshold: 0.55
+
+verification:
+  # ANSWER-AWARE GROUNDING CHECK.
+  #
+  # The topical support check asks "is this evidence about the topic?". Measured against
+  # QASPER's human-marked answer evidence, that question barely detects the failure it is
+  # meant to guard: when compression removed every trace of the supporting passage, the
+  # topical check missed 77.9% of cases, once scoring 0.985 on evidence containing none of
+  # it. On-topic neighbours survive the removal of the answer.
+  #
+  # This asks the other question — does the evidence *entail the claims our answer makes*?
+  # It needs a draft answer first, so it costs one extra generation pass per query.
+  #
+  # Enabled via `restoration.policy: answer_aware`.
+  #
+  # NLI, not relevance, and deliberately independent of `evaluation.scorer`: answer claims
+  # are assertions and entailment is the right relation for them, whereas query-derived
+  # claims are topics and relevance is right for those. One model cannot do both on one
+  # scale — see src/evaluation.py for the measurements behind that split.
+  scorer: nli
+  entailment_threshold: 0.5
+  max_claims: 6
+
+restoration:
+  # WHICH SIGNAL DECIDES THAT COMPRESSION WENT TOO FAR.
+  #
+  # These are two different questions and they were conflated:
+  #   "does the corpus answer this at all?"        -> abstention
+  #   "did compression drop something needed?"     -> restoration
+  # One absolute threshold answered both, which meant the restoration trigger inherited a
+  # corpus-specific constant it has no reason to depend on.
+  #
+  #   absolute — restore when compressed support falls under the abstain threshold.
+  #              Measured on QASPER: when compression removed ALL trace of the human-marked
+  #              answer evidence, this fired on 0 of 6 cases. The signal is topical
+  #              relevance, and dropping the answer sentence usually leaves other on-topic
+  #              sentences scoring just as high, so the loss is invisible to it.
+  #   relative — restore when compressed support falls materially below what the FULL
+  #              evidence set scores for the same claim. Self-calibrating: it asks whether
+  #              compression *changed* anything, which needs no per-corpus threshold.
+  #              Measured: halves the miss rate (77.9% -> 60.3% on total losses).
+  #   answer_aware — draft an answer from the compressed evidence, extract the assertions
+  #              it makes, and restore if any is not entailed by that evidence. The only
+  #              policy that asks about the *answer* rather than about the topic. Costs an
+  #              extra generation pass plus NLI scoring; see the `verification` block.
+  #
+  # Reported as an ablation rather than swapped in silently, since `absolute` is what
+  # every result before 2026-08-03 used.
+  policy: absolute
+  # Restore when compressed support drops below this fraction of full-evidence support.
+  retain_fraction: 0.9
+
+  # GRADED RESTORATION. 0 = restore everything at once (the original behaviour).
+  # Any positive value reinstates that many of the best-ranked dropped units, re-checks,
+  # and escalates only if still insufficient — with full restoration as the final rung, so
+  # this can never recover less than the all-at-once policy.
+  #
+  # Worth having because restoration fires on a quarter to a half of questions, and each
+  # firing currently surrenders the claim's entire saving including the units that were
+  # correctly dropped.
+  step: 0
+
+  # Try the dropped chunks *adjacent in the source text* to a kept one before anything
+  # else. Sentence chunking is what makes reversibility exact, but it severs a claim from
+  # its context — "The function has two tunable parameters." and the sentence naming them
+  # become separate units. A neighbour is the cheapest possible guess at that missing
+  # context: no model call, no scoring, just adjacency. It is a *cohesion* repair, where
+  # restoring the next-best by score is a *relevance* one, and they fix different things.
+  neighbours_first: false
 
 abstain:
   # If every retrieved candidate for a claim scores below this, the KB likely lacks the
@@ -92,6 +264,41 @@ abstain:
   ambiguous_claim_count: 3
 
 generation:
+  # Fallback cap when a style does not set its own.
   max_new_tokens: 256
   # Greedy by default so runs are reproducible.
   temperature: 0.0
+
+  # Answer style. NOT cosmetic — answer length is scored.
+  #
+  # Answer F1 is unigram overlap, so every word the answer contains that the gold answer
+  # does not is a precision penalty. QASPER gold answers are a median of 7 words ("BERT",
+  # "two", "on Wikipedia"). A correct 40-word prose answer against a 7-word gold caps at
+  # F1 ~0.30 no matter how right it is; measured mean was 0.033, which was mostly reading
+  # verbosity rather than quality.
+  #
+  #   prose      — a few sentences, for a human reading the web UI
+  #   extractive — the shortest span that answers, for benchmark scoring
+  #
+  # Set per consumer: the UI wants prose, run_eval.py --answer-style extractive wants the
+  # short form. Neither is "correct" in general; they are answers to different questions.
+  style: prose
+  styles:
+    prose:
+      system: >-
+        You answer strictly from the evidence provided.
+        Do not add facts that are not in the evidence.
+        Keep the answer to a few sentences.
+      instruction: Answer the question using only the evidence below.
+      max_new_tokens: 256
+    extractive:
+      system: >-
+        You answer strictly from the evidence provided, in as few words as possible.
+        Copy the answer from the evidence verbatim where you can.
+        Give only the answer itself — no restatement of the question, no explanation,
+        no full sentence unless the answer is genuinely a sentence.
+        For a yes/no question answer exactly "Yes" or "No".
+      instruction: >-
+        Answer the question using only the evidence below.
+        Reply with the answer only, in as few words as possible.
+      max_new_tokens: 48

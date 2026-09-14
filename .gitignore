@@ -221,3 +221,10 @@ __marimo__/
 results.json
 *.results.json
 .cache/
+
+# Archived experiment runs are the opposite of scratch output: every number reported in
+# the paper has to trace back to one of these files, together with the commit and command
+# that produced it. The negation must come after the patterns above, or a bundle
+# containing a results.json would be silently dropped.
+!artifacts/
+!artifacts/**

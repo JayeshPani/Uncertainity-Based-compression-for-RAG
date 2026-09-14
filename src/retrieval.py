@@ -125,8 +125,20 @@ class Retriever:
         self._matrix = matrix
         return matrix
 
-    def retrieve(self, query: str, top_k: int | None = None) -> list[EvidenceUnit]:
+    def retrieve(
+        self,
+        query: str,
+        top_k: int | None = None,
+        restrict_to: str | None = None,
+    ) -> list[EvidenceUnit]:
         """Return the top-k evidence units for a query, scored by cosine similarity.
+
+        `restrict_to` limits candidates to a single document. This is needed for
+        single-document benchmarks such as QASPER, where questions are asked *about a
+        given paper* and are not self-identifying — "which datasets did they experiment
+        with?" has no answer without knowing which paper "they" refers to. Searching the
+        whole corpus for such a question retrieves confident, well-scoring evidence from
+        entirely the wrong paper.
 
         Fresh EvidenceUnit copies are returned so per-query scores never mutate the
         retriever's shared chunk list.
@@ -135,6 +147,15 @@ class Retriever:
         matrix = self.build()
         if matrix.shape[0] == 0:
             return []
+
+        allowed = None
+        if restrict_to is not None:
+            allowed = np.array(
+                [i for i, u in enumerate(self.units) if u.span.doc_id == restrict_to]
+            )
+            if allowed.size == 0:
+                return []
+            matrix = matrix[allowed]
 
         query_vec = self.embedder.encode([query])[0]
         # Unit vectors, so the dot product is cosine similarity.
@@ -152,7 +173,8 @@ class Retriever:
 
         results: list[EvidenceUnit] = []
         for idx in top_idx:
-            unit = self.units[idx]
+            # Map back to corpus positions when the candidate set was narrowed.
+            unit = self.units[allowed[idx] if allowed is not None else idx]
             results.append(
                 EvidenceUnit(
                     span=unit.span,

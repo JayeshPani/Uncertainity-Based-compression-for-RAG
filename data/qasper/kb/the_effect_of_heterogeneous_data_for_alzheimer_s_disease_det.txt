@@ -1,0 +1,103 @@
+The Effect of Heterogeneous Data for Alzheimer's Disease Detection from Speech
+
+Speech datasets for identifying Alzheimer's disease (AD) are generally restricted to participants performing a single task, e.g. describing an image shown to them. As a result, models trained on linguistic features derived from such datasets may not be generalizable across tasks. Building on prior work demonstrating that same-task data of healthy participants helps improve AD detection on a single-task dataset of pathological speech, we augment an AD-specific dataset consisting of subjects describing a picture with multi-task healthy data. We demonstrate that normative data from multiple speech-based tasks helps improve AD detection by up to 9%. Visualization of decision boundaries reveals that models trained on a combination of structured picture descriptions and unstructured conversational speech have the least out-of-task error and show the most potential to generalize to multiple tasks. We analyze the impact of age of the added samples and if they affect fairness in classification. We also provide explanations for a possible inductive bias effect across tasks using model-agnostic feature anchors. This work highlights the need for heterogeneous datasets for encoding changes in multiple facets of cognition and for developing a task-independent AD detection model.
+
+Introduction Alzheimer's disease (AD) is a neurodegenerative disease affecting over 40 million people worldwide with high costs of acute and long-term care BIBREF0 . Recruitment of participants with cognitive impairment has historically been a bottleneck in clinical trials BIBREF1 , making AD datasets relatively small. Additionally, though cognitive assessments test domains of cognition through multiple tasks, most available datasets of pathological speech are restricted to participants performing a single task. Picture description using an image to elicit narrative discourse samples is one such task that has proved to be successful in detecting AD BIBREF2 . However, it is important to develop ML models of high performance that would produce results generalizable across different tasks.
+
+Several studies have used natural language processing and machine learning to distinguish between healthy and cognitively impaired speech of participants describing a picture. Fraser et al. BIBREF3 used linguistic and acoustic features to classify healthy and pathological speech transcripts with an accuracy of INLINEFORM0 . Similarly, Karlekar et al. BIBREF4 classified utterances of speakers as AD or healthy (HC) with an accuracy of INLINEFORM1 using an enlarged, utterance-level view of transcripts of picture descriptions. In line with previous research, we use linguistic and acoustic features of speech as input to our ML model. Furthermore, we extend the model to using data from several different tasks.
+
+Noorian et al. BIBREF5 demonstrated that using within-task data of healthy participants describing a picture improved AD detection performance by up to 13%. In this paper, we evaluate if model performance improves with the addition of data from healthy participants, with varying ages, performing either the same or different tasks. We find that models trained on datasets of picture description tasks augmented with conversational speech of healthy speakers learn decision boundaries that are more generalizable across activities with lower out-of-task errors. We observe a 9% increase in AD detection performance when normative data from different tasks are utilized. We also analyze if each task provides domain-specific inductive bias for other tasks to obtain a model setting capable of detecting AD from any sample of speech using high-precision model-agnostic explanations proposed by Ribeiro et al. BIBREF6 and computation of various error metrics related to classification.
+
+Data All datasets shown in Tab. SECREF2 were transcribed manually by trained transcriptionists, employing the same list of annotations and protocols, with the same set of features extracted from the transcripts (see Sec. SECREF3 ). HAPD and HAFP are jointly referred to as HA.
+
+Methods Feature Extraction: We extract 297 linguistic features from the transcripts and 183 acoustic features from the associated audio files, all task-independent. Linguistic features encompass syntactic features (e.g. syntactic complexity BIBREF9 ), lexical features (e.g. occurrence of production rules). Acoustic features include Mel-frequency Cepstral Coefficients (MFCCs) & pause-related features (e.g., mean pause duration). We also use sentiment lexical norms BIBREF10 , local, and global coherence features BIBREF11 .
+
+Feature Predicates as Anchors for Prediction: Given a black box classifier INLINEFORM0 with interpretable input representation, Ribeiro et al. BIBREF6 define anchors INLINEFORM1 as a set of input rules such that when conditions in the rule are met, humans can confidently predict the behavior of a model with high precision. Since the inputs to the classifier are engineered features with finite ranges,we can obtain sufficient conditions for the prediction INLINEFORM2 in terms of interpretable feature thresholds for an unseen instance INLINEFORM3 . Anchors are found by maximizing the metric of coverage, defined as the probability of anchors holding true to samples in the data distribution INLINEFORM4 , in BIBREF6 . Hence, INLINEFORM5 is maximized, where INLINEFORM6 .
+
+We show in Sec. SECREF13 that anchors identified from a model trained on multiple tasks have more coverage over the data distribution than those obtained from a model trained on a single task. Such a scenario is possible when task-independant, clinically relevant speech features are selected as anchors (e.g., fraction of filled pauses in speech BIBREF12 , acoustic features BIBREF13 etc. ). Additionally, such selected anchors must also be associated with thresholds applicable across multiple types of speech.
+
+Experiments Binary classification of each speech transcript as AD or HC is performed. We do 5-fold cross-validation, stratified by subject so that each subject's samples do not occur in both training and testing sets in each fold. The minority class is oversampled in the training set using SMOTE BIBREF14 to deal with the class imbalance. We consider a Random Forest (100 trees), Naïve Bayes (with equal priors), SVM (with RBF kernel), and a 2-layer neural network (10 units, Adam optimizer, 500 epochs) BIBREF15 . Additionally, we augment the DB data with healthy samples from FP with varied ages.
+
+Visualization of Class Boundaries Since data of different tasks have different noise patterns, the probability of overfitting to noise is reduced with samples from different tasks. This can also be visualized as decision boundaries of models trained on various dataset combinations. For Fig. SECREF2 , we embed the 480-dimensional feature vector into 2 dimensions using Locally Linear Embeddings BIBREF16 trained on DB.
+
+In datasets consisting of picture descriptions and conversational speech (DB + FP), the feature ranges increase as compared to picture description tasks, so it is expected that a classifier trained on structured tasks only (DB + HAFP) would incorrectly classify healthy samples in the fourth quadrant (error rates for tasks not in dataset is 17.8%). However, decision boundaries for models trained on a mix of structured tasks and unstructured conversational speech seem to be more generalizable across tasks. E.g., decision boundaries obtained from DB + FP could apply to most datapoints in HAFP (out of task error rate is 3.6%). Clinically, some of the features used such as the patterns in usage of function words like pronouns have shown to reflect stress-related changes in gene expression, possibly caused due to dementia BIBREF17 which would not depend on the task type and could explain such a common underlying structure to features.
+
+Classification Performance Results of binary classification with different dataset combinations (i.e., the proportion of each dataset used) are in Tab. SECREF7 . The highest F1 score on DB is INLINEFORM0 with SVM as obtained by Noorian et al. BIBREF5 , enabling similar comparisons.
+
+We see the same trend of increasing model performance with normative data from the picture description task, as shown by Noorian et al. BIBREF5 . We observe that this increase is independent of the nature of the task performed - normative picture description task data of similar size as in BIBREF5 and the same amount of normative data from different structured tasks of fluency tests and paragraph reading prove to be helpful, bringing about a similar increase in scores (+2%, +5% absolute F1 micro and macro). Interestingly, performance of detecting the majority (healthy) class (reflected in F1 micro) as well as the minority (AD) class (reflected in F1 macro) increases with additional data.
+
+Augmenting DB with same amount of samples from structured tasks (HA) and from conversational speech (FP) brings about similar performance. Doubling the initial amount of control data with data from a different structured task (HA, HAFP) results in an increase of up to 9% in F1 scores.
+
+Impact of Age We augment DB with healthy samples from FP with varying ages (Tab. SECREF11 ), considering 50 samples for each 15 year duration starting from age 30. Adding the same number of samples from bins of age greater than 60 leads to greater increase in performance. This could be because the average age of participants in the datasets (DB, HA etc.) we use are greater than 60. Note that despite such a trend, addition of healthy data produces fair classifiers with respect to samples with age INLINEFORM0 60 and those with age INLINEFORM1 60 (balanced F1 scores of 75.6% and 76.1% respectively; further details in App. SECREF43 .)
+
+Inductive Bias of Tasks Each task performed in the datasets is designed to assess different cognitive functions, e.g. fluency task is used to evaluate the ability to organize and plan BIBREF18 and picture description task - for detecting discourse-related impairments BIBREF19 . As a result, it is expected that the nature of decision functions and feature predicates learned on data of each of these tasks would be different. Performance of AD identification with addition of normative data from multiple tasks (Tab. SECREF7 ), despite the possibly different nature of decision functions, suggests that training the model with samples from each task provides domain-specific inductive bias for other tasks. We study possible underlying mechanisms responsible for this, suggested by Caruana et al. BIBREF20 and Ruder et al. BIBREF21 .
+
+Attention-focusing on Relevant Features: Ruder et al. BIBREF21 claim that in a small, high-dimensional dataset, information regarding relevance or irrelevance of particular features is difficult to capture. However, data related to multiple tasks can help identify features relevant across different activities. We can use anchor variables BIBREF6 to show this effect. The coverage of features anchoring the prediction of an instance indicates the applicability of the feature predicate to the rest of the data distribution and hence the importance of the feature across the data distribution. The coverage of the anchors selected for a test set which is 10% (50 samples) of DB changes by 40.8% (from 0.05 to 0.07) on the addition of the HA, which indicates that there is an attention focusing effect.
+
+Representation bias: As shown by Schulz et al. BIBREF22 , models trained on data from multiple tasks perform better than with single-task information when little training data is available for the main task. The non-linear trend of increase in model performance with the addition of different amounts of data is shown in App. SECREF41 . The F1 micro score of the best performing model trained on DB + HA is 82.28% for picture description tasks, 95.4% for paragraph reading and 97.01% for fluency tasks. This shows greater than trivial performance for each task and improvement in performance for picture description task from training a model purely on DB. Such an effect helps the model achieve non-trivial performance on AD detection for novel tasks measuring multiple domains of cognition, given a sufficiently large number of training tasks according to algorithms provided by Baxter et al. BIBREF23 . Hence, training models on many speech-based tasks could help develop an algorithm capable of detecting AD from any sample of spontaneous speech.
+
+Ongoing work is on detailed analysis of nature and polarity of feature trends across various speech tasks. Future work will focus on learning interpretable latent representations based on the observations made, capable of good predictive performance across a multitude of tasks.
+
+Detailed Description of Datasets DementiaBank (DB): The DementiaBank dataset is the largest available public dataset of speech for assessing cognitive impairments. It consists of narrative picture descriptions from participants aged between 45 to 90 BIBREF24 . In each sample, a participant describes the picture that they are shown. Out of the 210 participants in the study, 117 were diagnosed with AD ( INLINEFORM0 samples of speech) and 93 were healthy (HC; INLINEFORM1 samples) with many subjects repeating the task with an interval of a year. Demographics of age, sex, and years of education are provided in the dataset.
+
+Healthy Aging (HA) : The Healthy Aging dataset consists of speech samples of cognitively healthy participants ( INLINEFORM0 ) older than 50 years. Each participant performs three structured tasks - picture description (HAPD), verbal fluency test, and a paragraph reading task. Fluency and paragraph tasks are jointly referred to as HAFP. The average number of samples per participant is 14.46. The dataset constitutes 8.5 hours of total audio.
+
+Famous People (FP): The Famous People dataset BIBREF8 consists of publicly available spontaneous speech samples from 9 famous individuals (e.g., Woody Allen & Clint Eastwood) over the period from 1956 to 2017, spanning periods from early adulthood to older age, with an average of 25 samples per person. We use speech samples of these subjects who are considered to be healthy ( INLINEFORM0 ), given an absence of any reported diagnosis or subjective memory complaints. This healthy control (HC) group covers a variety of speaker ages, from 30 to 88 ( INLINEFORM1 , INLINEFORM2 ).
+
+Features A list of 480 features belonging to three groups - acoustic, semantic/ syntactic and lexical. These features include constituency-parsing based features, syntactic complexity features extracted using Lu Syntactic Complexity analyzer BIBREF9 , MFCC means, variances and other higher order moments. Few of these features are listed below :
+
+Phonation rate : Percentage of recording that is voiced.
+
+Mean pause duration : Mean duration of pauses in seconds.
+
+Pause word ratio : Ratio of silent segments to voiced segments.
+
+Short pause count normalized : Normalized number of pauses less than 1 second.
+
+Medium pause count normalized : Normalized number of pauses between 1 second and 2 seconds in length.
+
+ZCR kurtosis : Kurtosis of Zero Crossing Rate (ZCR) of all voiced segments across frames.
+
+MFCC means : Mean of velocity of MFCC coefficient over all frames (this is calculated for multiple coefficients).
+
+MFCC kurtosis: Kurtosis of mean features.
+
+MFCC variance: Variance of acceleration of frame energy over all frames.
+
+Moving-average type-token ratio (MATTR): Moving average TTR (type-token ratio) over a window of 10 tokens.
+
+Cosine cutoff : Fraction of pairs of utterances with cosine distance INLINEFORM0 0.001.
+
+Pauses of type `uh' : The number of `uh' fillers over all tokens.
+
+Numbers of interjections/numerals : The number of interjections/numerals used over all tokens.
+
+Noun ratio: Ratio of number of nouns to number of nouns + verbs.
+
+Temporal cohesion feature : Average number of switches in tense.
+
+Speech graph features : Features extracted from graph of spoken words in a sample including average total degree, number of edges, average shortest path, graph diameter (undirected) and graph density.
+
+Filled pauses : Number of non-silent pauses.
+
+Noun frequency : Average frequency norm for all nouns.
+
+Noun imageability: Average imageability norm for all nouns.
+
+Features from parse-tree : Number of times production rules such as number of noun phrases to determiners occurrences, occur over the total number of productions in the transcript's parse tree.
+
+Syntactic complexity features: Ratio of clauses to T-units, Ratio of clauses to sentences etc. BIBREF9 
+
+Hyper-parameters: Gaussian Naive Bayes with balanced priors is used.
+
+The random forest classifier fits 100 decision trees with other default parameters in BIBREF15 .
+
+SVM is trained with radial basis function kernel, regularization parameter INLINEFORM0 and INLINEFORM1 .
+
+The NN consists of one hidden layer of 10 units. The tanh activation function is used at each hidden layer. The network is trained using Adam for 100 epochs with other default parameters in BIBREF15 .
+
+Effect of data from different tasks: The effect of augmenting DB with data from a different structured task (HAFP) is shown in SECREF41 .
+
+F1 scores (micro and macro) increase non-linearly with the addition of data.
+
+Fairness with Respect to Age: We evaluate fairness of classification with respect to two groups - samples with age INLINEFORM0 60 and those with age INLINEFORM1 60. A fair classifier would produce comparable classification scores for both groups. For the best performing classifier on DB, the F1 (micro) score for samples with age INLINEFORM2 60 is 85.9% and with age INLINEFORM3 60 is 76.4%. With the addition of HA, the F1 (micro) score for samples with age INLINEFORM4 60 and with age INLINEFORM5 is more balanced (75.6%, 76.1% respectively) for the same set of data points from DB. Note that the average age in both datasets are similar ( INLINEFORM6 ).

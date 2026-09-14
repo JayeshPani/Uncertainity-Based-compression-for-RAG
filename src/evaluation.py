@@ -63,6 +63,20 @@ class SupportScorer(ABC):
         self.device = device
         self._model = None
         self._tokenizer = None
+        # Cost instrumentation. Compression is not free: it buys generator tokens by
+        # spending scorer forward passes, and a token saving reported without that
+        # exchange rate is only half a cost claim. `relative` restoration in particular
+        # doubles these.
+        self.calls = 0
+        self.premises_scored = 0
+        # Scoring cache, keyed by (claim, premise). The ablation runs the same claim
+        # against overlapping evidence sets many times over — every arm scores the same
+        # question, the relative policy scores the compressed and full sets, and graded
+        # restoration scores each rung — so the same (claim, premise) pair recurs
+        # constantly. The cache is per-scorer, so a change of model or device gets a fresh
+        # one by construction rather than by remembering to invalidate.
+        self._cache: dict[tuple[str, str], float] = {}
+        self.cache_hits = 0
 
     def _load(self):
         if self._model is None:
@@ -87,6 +101,8 @@ class SupportScorer(ABC):
 
     def _encode(self, premises: list[str], claim: str):
         model, tokenizer = self._load()
+        self.calls += 1
+        self.premises_scored += len(premises)
         return model, tokenizer, tokenizer(
             premises,
             [claim] * len(premises),
@@ -96,8 +112,25 @@ class SupportScorer(ABC):
             return_tensors="pt",
         ).to(self.device)
 
-    @abstractmethod
     def score(self, premises: list[str], claim: str) -> list[float]:
+        """Score each premise against `claim`, computing only what is not already known.
+
+        Caching happens here rather than in each subclass so both scorers get it, and so
+        `_score_uncached` stays a pure "run the model on these" function that is easy to
+        reason about and to test.
+        """
+        if not premises:
+            return []
+
+        missing = [p for p in dict.fromkeys(premises) if (claim, p) not in self._cache]
+        self.cache_hits += len(premises) - len(missing)
+        if missing:
+            for premise, score in zip(missing, self._score_uncached(missing, claim)):
+                self._cache[(claim, premise)] = score
+        return [self._cache[(claim, p)] for p in premises]
+
+    @abstractmethod
+    def _score_uncached(self, premises: list[str], claim: str) -> list[float]:
         ...
 
 
@@ -106,9 +139,7 @@ class RelevanceScorer(SupportScorer):
 
     name = "relevance"
 
-    def score(self, premises: list[str], claim: str) -> list[float]:
-        if not premises:
-            return []
+    def _score_uncached(self, premises: list[str], claim: str) -> list[float]:
         model, _, encoded = self._encode(premises, claim)
         torch = self._torch
         with torch.no_grad():
@@ -133,9 +164,7 @@ class NliScorer(SupportScorer):
         if self._entailment_index is None:
             raise ValueError(f"no ENTAILMENT label in {self.model_id}: {id2label}")
 
-    def score(self, premises: list[str], claim: str) -> list[float]:
-        if not premises:
-            return []
+    def _score_uncached(self, premises: list[str], claim: str) -> list[float]:
         model, _, encoded = self._encode(premises, claim)
         torch = self._torch
         with torch.no_grad():
@@ -174,6 +203,7 @@ class SupportEvaluator:
         self.cfg = cfg or default_config()
         self.scorer = scorer or scorer_from_config(self.cfg)
         self.aggregate = self.cfg.get_path("evaluation.aggregate", "max")
+        self.contextualize = bool(self.cfg.get_path("evaluation.contextualize", True))
 
     @property
     def threshold(self) -> float:
@@ -188,7 +218,8 @@ class SupportEvaluator:
         """
         if not units:
             return []
-        return self.scorer.score([contextualize(u) for u in units], claim)
+        premises = [contextualize(u, self.contextualize) for u in units]
+        return self.scorer.score(premises, claim)
 
     def evaluate(self, claim: str, units: list[EvidenceUnit]) -> ClaimVerdict:
         scores = self.score_units(claim, units)

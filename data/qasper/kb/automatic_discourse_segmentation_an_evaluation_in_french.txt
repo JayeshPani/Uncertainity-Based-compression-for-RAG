@@ -1,0 +1,109 @@
+Automatic Discourse Segmentation: an evaluation in French
+
+In this article, we describe some discursive segmentation methods as well as a preliminary evaluation of the segmentation quality. Although our experiment were carried for documents in French, we have developed three discursive segmentation models solely based on resources simultaneously available in several languages: marker lists and a statistic POS labeling. We have also carried out automatic evaluations of these systems against the Annodis corpus, which is a manually annotated reference. The results obtained are very encouraging.
+
+Introduction Rhetorical Structure Theory (RST) BIBREF0 is a technique of Natural Language Processing (NLP), in which a document can be structured hierarchically according to its discourse. The generated hierarchy, a tree, provides information associated with the boundaries of the discourse segments and related to their importance and dependencies. The figure FIGREF1 shows an example of such a rethorical tree. In the rethorical parsing process, the text has been divided into five units. In the figure FIGREF1, the arrow that leaves the unit (2) towards the unit (1) symbolizes that the unit (2) is the satellite of the unit (1), which is the core in a "Concession" relationship. In turn, the units (1) and (2) comprise the nucleus of three "Demonstration" relationships.
+
+The discursive analysis of a document normally includes three consecutive steps: 1) discursive segmentation; 2) detection of the discursive relations; 3) construction of the hierarchical rhetorical tree. Regarding the discursive segmentation, there are segmenters in several languages. However, each piece depends on sofisticated linguistic resources, which complicates the reproduction of the experiments in other languages. Consequently, the development of multilingual systems using discursive analysis are yet to be developed. Diverse applications based on the latest technologies require at least one of the three steps mentioned above BIBREF1, BIBREF2, BIBREF3. In this context, the idea of exploring the architecture of a generic system that is able not only of segmenting a text correctly but also of adapting it to any language, was a great motivation of this research work.
+
+In this article we show the preliminary results of a generic segmenter composed of several systems (different segmentation strategies). In addition, we describe an automatic evaluation protocol of discursive segmentation. The article is composed by the following sections: state of the art (SECREF2), which presents a brief bibliographic review; Description of the Annodis (SECREF3) corpus used in our tests and of the general architecture of the proposed systems (SECREF4); Segmentation strategies (SECREF5), which characterizes the different methods implemented to segment the text; results of our numerical experiments (sec:experiments); and we conclude with our conclusions and perspectives (SECREF7).
+
+State-of-the-art In RST, there are tow discursive units: nuclei and satellites. The nucleus provide information pertinent to the purposes of the author of the text and the satellites add additional information to the nucleu, on which they are dependent on. In the context of RST, possible discursive relationships may be nucleus-satellite and multinuclear. In nucleus-satellite relationships, a satellite depends on one nucleus, whereas in multinuclear relationships, several nuclei (at least two) are regrouped at the same level of importance (tree hierarchy). Thus, in the discursive segmentation proposes to reduce the text into the minimal discursive units called Elementary Discursive Units (EDU), through the use of explicit discursive markers. As an example, we can quote some markers in French:
+
+afin de, pour que, donc, quand bien même que, ensuite, de fois que, globativamente, par contre, sinon, à ce moment-là, cependant, subséquemment, puisque, au fur et à mesure que, si, finalement, etc..
+
+Markers or particles are often used to connect ideas. Let's consider the sentence below:
+
+La ville d'Avignon est la capitale du Vaucluse, qui est un département du sud de la France.
+
+qui (which) is a discursive marker because it connects two ideas. The first one, "Avignon City is the capital of Vaucluse" (La ville d'Avignon est la capitale du Vaucluse), and the second one (satellite), "[Vaucluse] is a department in the south of France" ([Vaucluse] est un département du sud de la France). Several research has addressed automatic segmentation in several languages, such as: French BIBREF4, English BIBREF5, Portuguese BIBREF6, Spanish BIBREF7, BIBREF8 and Tahi. BIBREF9. All converge to the idea of using an explicit list of marks in order to segment texts.
+
+Annodis Corpus In this first exploratory work, our tests considered only documents in French from the Annodis corpus. Annodis (ANNOtation DIScursive) is a set of documents in French that were manually enriched with notes of discursive structures. Its main characteristics are:
+
+Two annotations: Rhetorical relations and multilevel structures.
+
+Documents (687 000 words) taken from four sources: the Est Républicain newspaper (39 articles, 10 000 words); Wikipedia (30 articles + 30 summaries, 242 000 words); Proceedings of the conference Traitement Automatique des Langues Naturelles (TALN) 2008 (25 articles, 169 000 words); Reports from Institut Français de Relations Internationales (32 raports, 266 000 words).
+
+The corpora were noted using Glozz.
+
+Annodis aims at building an annotated corpus. The proposed annotations are on two levels of analysis, that is, two perspectives:
+
+Ascendant: part of EDU are used in the construction of more complex structures, through the relations of discourse;
+
+Descending: approaches the text in its entirety and relies on the various shallow indices to identify high-level discursive structures (macro structures).
+
+Two types of persons annotated Annodis: linguistic experts and students. The first group constituted a $E$ subcorpus called "specialist" and the second group resulted in a $N$ subcorpus called "naive". These rhetorically annotated subcorps were used as references in our experiments. (c.f. §SECREF6).
+
+Discourse Segmenter Overall Description The Figure FIGREF12 shows the general architecture of the proposed discourse segmenter system. The initial input is the raw text encoded in UTF-8. The two initial processes are Part of Speech morphosyntactic Tagging (POS) and the segmentation at the level of the sentences. This last is just a preprocessing step that splits sentences. In the last process the system uses a bank of explicit markers in roder to apply the rules for the final discourse segmentation.
+
+For the experiments, we used lists of markers in French, Spanish, English and Portuguese. We also used the Lexiconn BIBREF10 project list, which regroups 328 French-language markers. Another important parameter specifies which segmentation strategy should be applied, according to the POS labelling of the document.
+
+Description of segmentation strategies ::: Segmentation with explicit use of a marker The elementary system Segmenter$_{\mu }$ (baseline) relies solely on a list of discursive markers to perform the segmentation. It replaces the appearance of a marker in the list with a special symbol, for example $\mu $, which indicates a boundary between the right and left segment. Be the sentence of the preceding example: La ville d'Avignon est la capitale du Vaucluse, qui est un département du Sud de la France.. The Segmenter split the sentence in two parts: the left segment (SE), La ville d'Avignon est la capitale du Vaucluse, and the right segment (SD), est un département du sud de la France.
+
+Description of segmentation strategies ::: Segmentation with explicit use of a marker and POS labels The Segmenter$_{\mu +}$ system presents an improvement to the Segmenter$_{\mu }$: inclusion of grammar categories with the TreeTagger tool. The advantage of this system is the detection of certain grammatical forms in order to condition the segmentation. Since it is based on the Segmenter$_{\mu }$, we try to recognise the opportune conditions to gather two segments when both are part of the same discursive segment. We try to identify more subtly when it is pertinent to leave the two segments separate. The Segmenter$_{\mu }$ has two distinct strategies:
+
+Segmentador$_{\mu +V}$ (verbal version, V): it relies solely on the presence of verbal forms to the right and left of the discursive marker. The two grammatical rules of this strategy are:
+
+If there are no verbs in the left and right segments, regroup them.
+
+If there is at least one verb in the left or right segment, the segments will remain separate.
+
+Segmenter$_{\mu +(V-N)}$ (verb-noun version, V-N): it relies on the presence of verbs and nouns. For this version, four rules are considered:
+
+If there is no noun in either the left or right segment, we regroup the segments.
+
+We regroup the segments if at least one of them has no noun.
+
+If at least one noun is present in both segments, they remain independent.
+
+If there is no verb-nominal form, the segments remain independent.
+
+Experiments In this first exploratory work, only documents in French were considered, but the system can be adapted to other languages. The evaluation is based on the correspondence of word pairs representing a border. In this way we compare the Annodis segmentation with the automatically produced segmentation. For each pair of reference segments, a $L_r$ list of word pairs is provided: the last word of the first segment and the first word of the second.
+
+For example, considering the reference text wik1_01_02-04-2006.seg, from Annodis corpus:
+
+[Le Ban Amendment]$_1$ [Après avoir adopté la Convention,]_2 [un certain nombre de PED et d'associations de défense de l'environnement soutinrent]_3 [que le document n'allait pas assez loin.]_4 [De nombreux pays et ONG militèrent]_5 [en faveur d'une interdiction totale de l'expédition de déchets dangereux à destinations des PED.]_6 [Plus exactement,]_7 [la Convention originale n'interdisait pas l'exportation de déchets,]_8 [excepté vers l'Antarctique.]_9 [Elle n'exigeait]_10 [qu'une procédure de consentement préalable en connaissance de cause]_11 [(PIC, Prior Informed Consent).]_12
+
+Here are the word pairs of the created reference list (punctuation marks are disregarded):
+
+$L_r$={[Convention - un], [soutinrent - que], [loin - de], [militèrent - en], [exactement - la], [PED - plus], [exactement - la], [déchets - excepté], [Antartique - Elle], [exigeait - qu'une], [cause - PIC] }
+
+We decided to count the word pairs instead of the segments, as this is a first version of the evaluation protocol. In fact, the segments may be nested, which complicates the evaluation process. Although there are some errors, word boundaries allow us to detect segments more easily.
+
+We have built a second $L_c$ list for the automatically identified segments, following the same criteria of $L_r$. The $L_r$ and $L_c$ lists regroup, pair by pair, the segment border. We then count the common pair intersection of the two lists. Each pair in the $L_c$ list is also present in the $L_r$ reference list and is a correctly assigned to the class pair. A word pair belonging to the $L_c$ list but not belonging to the $L_r$ reference list, will be a pair assigned to the class.
+
+For that same text, the $L_c$ list of candidate pairs obtained with the Segmentator$_{\mu }$ is:
+
+$L_r$={[loin-De], [pays-et], [militèrent-en], [dangereux-à], [PED-Plus], [Antarctique-Elle], [préalable-en], [cause-PIC] }
+
+We calculate the precision $P$, the recall $R$ and the $F$-score on the text corpus used in our tests, as follow:
+
+The precision, the recall and the $F$-score for this example is: $P$ = 5 / 11 = 0.45; $R$ = 5 / 8 = 0.625; F-score = 2 $\times \frac{ 0.45 \times 0.625}{ 0.45 + 0.625} = 0.523$. We used the documents in the Annodis corpus without segmentation, because they had been segmented with the Segmenter$_{\mu }$ and with the grammar segmenters.
+
+Two batch of tests were performed. The first on the $D$ set of documents common to the two subcorpus "specialist" $E$ and "naive" $N$ from Annodis. $D$ contains 38 documents with 13 364 words. This first test allowed to measure the distance between the human markers. In fact, in order to get an idea of the quality of the human segmentations, the cuts in the texts made by the specialists were measured it versus the so-called "naifs" note takers and vice versa. The second series of tests consisted of using all the documents of the subcorpus "specialist" $E$, because the documents of the subcorpus of Annodis are not identical. Then we benchmarked the performance of the three systems automatically.
+
+Experiments ::: Results In this section we will compare the results of the different segmentation systems through automatic evaluations. First of all, the human segmentation, from the subcorpus $D$ composed of common documents. The results are presented in the table tab:humains. The first row shows the performance of the $I$ segments, taking the experts as a reference, while the second presents the process in the opposite direction.
+
+We have found that segmentation by experts and naive produces two subcorpus $E$ and $N$ with very similar characteristics. This surprised us, as we expected a more important difference between them. In any case, we deduced that, at least in this corpus, it is not necessary to be an expert in linguistics to discursively segment the documents. As far as system evaluations are concerned, we use the 78 $E$ documents as reference. Table TABREF26 shows the results.
+
+In the case of the Experts, the grammatical verb-nominal version (V-N) had better F-score performance. The verbal version (V) obtained a better accuracy $P$ than the verb-nominal (V-N). In the case of the Naive, the performance F-score, $P$ and $R$ is very similar from the Experts.
+
+Conclusions, discussion and perspectives The aim of this work was twofold: to design a discursive segmenter using a minimum of resources and to establish an evaluation protocol to measure the performance of segmenters. The results show that we can build a simple version of the baseline, which employs only a list of markers and presents a very encouraging performance. Of course, the quality of the list is a preponderant factor for a correct segmentation.
+
+We have studied the impact of the marker which, even though it may seem fringe-worthy, contributes to improving the performance of our segmenters. Thus, it is an interesting marker that we can consider as a discursive marker. The Segmentator$_{\mu }$ version provides the best results in terms of F-score and recall, followed by the Segmentator$_{\mu +V}$ version, which passes it in precision. Regarding evaluation, we developed a simple protocol to compare the performance of the systems. This is, to our knowledge, the first automatic evaluation in French.
+
+It is necessary to intensify our research in order to propose improvements to our segmenters, as well as to study further the impact of grammar tag rules on segmentation. Since we have a standard evaluation protocol, we intend to carry out tests with Portuguese, Spanish (see BIBREF11), English, etc. For that, we will only need a list of markers for each language.
+
+The performance of the systems remains modest, of course, but we must not forget that this is a baseline and its primary objective is to provide standard systems that can be used in testing protocols such as the one we proposed. Despite this evolution, these baselines (or their improved versions) can be used in applications such as automatic document summarisation (e.g., BIBREF12, BIBREF13), or sentences compression BIBREF14.
+
+The main feature of the proposed baseline system is its flexibility with respect to the language considered. In fact, it only uses a list of language markers and the grammatical category of words. The first resource, although dependent on each language, is relatively easy to obtain. We have found that, even with lists of moderate size, the results are quite significant. The grammatical categories were obtained with the help of the TreeTagger statistics tool. However, TreeTagger could be replaced by any other tool producing similar results.
+
+Appendix In this appendix, we present the list of rhetorical connectors in French that constitute our list of markers. We point out that the markers ending in apostrophe such as:
+
+près qu', à condition d', etc.
+
+are deleted from a regular expression implying 'and': près qu' + près que, à condition d' + à condition de, etc.
+
+3
+
+, / à / à ça près qu' / à ceci près qu' / à cela près qu' / à ce moment-là / à ce point qu' / à ce propos / à cet égard / à condition d' / à condition qu' / à défaut d' / à défaut de / à dire vrai / à élaborer / à en / afin d' / afin qu' / afin que / à force / à force d' / ainsi / à la place / à la réflexion / à l'époque où / à l'heure où / à l'instant où / à l'inverse / alors / alors même qu' / alors qu' / à mesure qu' / à moins d' / à moins qu' / à part ça / à partir du moment où / à part qu' / après / à présent qu' / après qu' / après quoi / après tout / à preuve / à propos / à seule fin d' / à seule fin qu' / à supposer qu' / à telle enseigne qu' / à tel point qu' / attendu qu' / au bout du compte / au cas où / au contraire / au fait / au fur et à mesure qu' / au lieu / au lieu d' / au même titre qu' / au moins / au moment d' / au moment où auparavant / au point d' / au point qu' / aussi / aussi longtemps qu' / aussitôt / aussitôt qu' / autant / autant dire qu' / au total / autrement / autrement dit / avant / avant d' / avant même d' / avant même qu' / avant qu' / à vrai dire / bien qu' / bientôt / bref / car / ceci dit / ceci étant dit / cela dit / cependant / cependant qu' / c'est à dire qu' / c'est pourquoi / cette fois qu' / comme / comme ça / comme quoi / comme si / comparativement / conséquemment / considérant qu' / considéré qu' / corrélativement / d'abord / d'ailleurs / dans ce cas / dans ce cas-là / dans la mesure où / dans le but d' / dans le but qu' / dans le cas où dans le coup / dans le sens où / dans le sens qu' / dans l'espoir d' / dans l'espoir qu' / dans l'hypothèse où / dans l'intention d' / dans l'intention qu' / dans tous les cas / d'autant plus qu' / d'autant qu' / d'autre part / de ce fait / décidément / de façon à / de façon à ce qu' / de façon qu' / de fait / déjà / déjà qu' / de la même façon / de la même façon qu' / de la même manière / de la même manière qu' / de manière à / de manière à ce qu' / de manière qu' / de même / de même qu' / de plus / depuis / depuis qu' / des fois qu' / dès lors / dès lors qu' / de sorte qu' / dès qu' / de telle façon qu' / de telle manière qu' / de toute façon / de toute manière / de toutes façons / de toutes manières / d'ici qu' / dire qu' / donc / d'où / d'où qu' / du coup / du fait qu' / du moins / du moment qu' / d'un autre côté d'un côté / d'un coup / d'une part / d'un seul coup / du reste / du temps où / effectivement / également / en / en admettant qu' / en attendant / en bref / en ce cas / en ce sens qu' / en comparaison / en conséquence / encore / encore qu' / en d'autres termes / en définitive / en dépit du fait qu' / en dépit qu' / en effet / en fait / enfin / en gros / en même temps / en même temps qu' / en outre / en particulier / en plus / en plus d' / en plus de / en réalité / en résumé / en revanche / en somme / ensuite / en supposant qu' / en tous cas en tous les cas / en tout cas / en tout état de cause / en vérité / en vue d' / et / étant donné qu' / et dire qu' / et puis / excepté qu' / faute d' / finalement / globalement / histoire d' / hormis le fait qu' / hormis qu' / instantanément / inversement / jusqu'à / jusqu'à ce qu' / la preuve / le fait est qu' / le jour où / le temps qu' / lorsqu' / maintenant / maintenant qu' / mais / malgré le fait qu' / malgré qu' / malgré tout / malheureusement / même / même qu' / même si / mieux / mis à part le fait qu' / mis à part qu' / néanmoins / nonobstant / nonobstant qu' / or / ou / ou bien / outre qu' / par ailleurs / parallèlement / parce qu' / par comparaison / par conséquent / par contre / par-dessus tout / par exemple / par le fait qu' / par suite / pendant qu' / peu importe plus qu' / plus tard plutôt / plutôt qu' / plutôt que d' / pour / pour autant pour autant qu' / pour commencer / pour conclure / pour finir / pour le coup / pour peu qu' / pour preuve / pour qu' / pour résumer / pourtant / pour terminer / pour une fois qu' / pourvu qu' / premièrement / preuve qu' / puis / puisqu' / quand / quand bien même / quand bien même qu' / quand même / quant à / quitte à / quitte à ce qu' / quoiqu' / quoi qu'il en soit / réciproquement / réflexion faite / remarque / résultat / s' / sachant qu' / sans / sans compter qu' / sans oublier qu' / sans qu' / sauf à / sauf qu' / selon qu' / si / si bien qu' / si ce n'est qu' / simultanément / sinon / sinon qu' / si tant est qu' / sitôt qu' / soit / soit dit en passant / somme toute / soudain / subséquemment / suivant qu' / surtout / surtout qu' / tandis qu' / tant et si bien qu' / tant qu' / total / tout à coup / tout au moins / tout bien considéré / tout compte fait / tout d'abord / tout de même / tout en / une fois qu' / un jour / un jour qu' / un peu plus tard / vu qu' /

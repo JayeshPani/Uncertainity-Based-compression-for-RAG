@@ -1,0 +1,516 @@
+{
+  "round_trip_checked": 16,
+  "round_trip_failures": 0,
+  "token_counts_exact": true,
+  "generation_skipped": false,
+  "arms": [
+    {
+      "mode": "identity",
+      "questions": 16,
+      "baseline_tokens": 2496,
+      "final_tokens": 2496,
+      "reduction": 0.0,
+      "restoration_rate": 0.0,
+      "false_abstain_rate": 0.0,
+      "correct_abstain_rate": 1.0,
+      "keyword_recall": 0.5667,
+      "elapsed_seconds": 17.0,
+      "rows": [
+        {
+          "query": "What are the two tunable parameters of BM25?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 164,
+          "final_tokens": 164,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.622
+          ],
+          "support": [
+            0.996
+          ]
+        },
+        {
+          "query": "What is TF-IDF?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 138,
+          "final_tokens": 138,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.56
+          ],
+          "support": [
+            0.973
+          ]
+        },
+        {
+          "query": "What is the context window of a language model?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 152,
+          "final_tokens": 152,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.162
+          ],
+          "support": [
+            0.929
+          ]
+        },
+        {
+          "query": "How does dense retrieval differ from lexical retrieval?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 170,
+          "final_tokens": 170,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.404
+          ],
+          "support": [
+            0.937
+          ]
+        },
+        {
+          "query": "What is prompt compression?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 144,
+          "final_tokens": 144,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.145
+          ],
+          "support": [
+            0.643
+          ]
+        },
+        {
+          "query": "Why does chunking need character offsets?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 157,
+          "final_tokens": 157,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.54
+          ],
+          "support": [
+            0.833
+          ]
+        },
+        {
+          "query": "What is natural language inference?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 174,
+          "final_tokens": 174,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.173
+          ],
+          "support": [
+            0.205
+          ]
+        },
+        {
+          "query": "What is selective prediction?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 150,
+          "final_tokens": 150,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.405
+          ],
+          "support": [
+            0.97
+          ]
+        },
+        {
+          "query": "What is model calibration?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 151,
+          "final_tokens": 151,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.233
+          ],
+          "support": [
+            0.975
+          ]
+        },
+        {
+          "query": "What causes hallucination in language models?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 157,
+          "final_tokens": 157,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.319
+          ],
+          "support": [
+            0.482
+          ]
+        },
+        {
+          "query": "What is reranking in a retrieval system?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 152,
+          "final_tokens": 152,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.424
+          ],
+          "support": [
+            0.795
+          ]
+        },
+        {
+          "query": "Why are ablation studies necessary?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 145,
+          "final_tokens": 145,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.488
+          ],
+          "support": [
+            0.799
+          ]
+        },
+        {
+          "query": "What is an embedding?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 162,
+          "final_tokens": 162,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.343
+          ],
+          "support": [
+            0.814
+          ]
+        },
+        {
+          "query": "How does caching invalidation work for embeddings?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 153,
+          "final_tokens": 153,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.181
+          ],
+          "support": [
+            0.285
+          ]
+        },
+        {
+          "query": "What is the capital city of Mongolia?",
+          "branch": "abstain_retrieve",
+          "abstained": true,
+          "answerable": false,
+          "baseline_tokens": 163,
+          "final_tokens": 163,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.958
+          ],
+          "support": [
+            0.0
+          ]
+        },
+        {
+          "query": "Who won the 2019 Formula One world championship?",
+          "branch": "abstain_retrieve",
+          "abstained": true,
+          "answerable": false,
+          "baseline_tokens": 164,
+          "final_tokens": 164,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.787
+          ],
+          "support": [
+            0.001
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "uncertainty_guided",
+      "questions": 16,
+      "baseline_tokens": 2496,
+      "final_tokens": 1414,
+      "reduction": 0.4335,
+      "restoration_rate": 0.0625,
+      "false_abstain_rate": 0.0,
+      "correct_abstain_rate": 1.0,
+      "keyword_recall": 0.6,
+      "elapsed_seconds": 12.3,
+      "rows": [
+        {
+          "query": "What are the two tunable parameters of BM25?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 164,
+          "final_tokens": 116,
+          "reduction": 0.2927,
+          "uncertainty": [
+            0.622
+          ],
+          "support": [
+            0.996
+          ]
+        },
+        {
+          "query": "What is TF-IDF?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 138,
+          "final_tokens": 86,
+          "reduction": 0.3768,
+          "uncertainty": [
+            0.56
+          ],
+          "support": [
+            0.973
+          ]
+        },
+        {
+          "query": "What is the context window of a language model?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 152,
+          "final_tokens": 61,
+          "reduction": 0.5987,
+          "uncertainty": [
+            0.162
+          ],
+          "support": [
+            0.929
+          ]
+        },
+        {
+          "query": "How does dense retrieval differ from lexical retrieval?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 170,
+          "final_tokens": 71,
+          "reduction": 0.5824,
+          "uncertainty": [
+            0.404
+          ],
+          "support": [
+            0.937
+          ]
+        },
+        {
+          "query": "What is prompt compression?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 144,
+          "final_tokens": 57,
+          "reduction": 0.6042,
+          "uncertainty": [
+            0.145
+          ],
+          "support": [
+            0.643
+          ]
+        },
+        {
+          "query": "Why does chunking need character offsets?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 157,
+          "final_tokens": 99,
+          "reduction": 0.3694,
+          "uncertainty": [
+            0.54
+          ],
+          "support": [
+            0.833
+          ]
+        },
+        {
+          "query": "What is natural language inference?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 174,
+          "final_tokens": 64,
+          "reduction": 0.6322,
+          "uncertainty": [
+            0.173
+          ],
+          "support": [
+            0.205
+          ]
+        },
+        {
+          "query": "What is selective prediction?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 150,
+          "final_tokens": 76,
+          "reduction": 0.4933,
+          "uncertainty": [
+            0.405
+          ],
+          "support": [
+            0.97
+          ]
+        },
+        {
+          "query": "What is model calibration?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 151,
+          "final_tokens": 61,
+          "reduction": 0.596,
+          "uncertainty": [
+            0.233
+          ],
+          "support": [
+            0.975
+          ]
+        },
+        {
+          "query": "What causes hallucination in language models?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 157,
+          "final_tokens": 71,
+          "reduction": 0.5478,
+          "uncertainty": [
+            0.319
+          ],
+          "support": [
+            0.482
+          ]
+        },
+        {
+          "query": "What is reranking in a retrieval system?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 152,
+          "final_tokens": 103,
+          "reduction": 0.3224,
+          "uncertainty": [
+            0.424
+          ],
+          "support": [
+            0.795
+          ]
+        },
+        {
+          "query": "Why are ablation studies necessary?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 145,
+          "final_tokens": 90,
+          "reduction": 0.3793,
+          "uncertainty": [
+            0.488
+          ],
+          "support": [
+            0.799
+          ]
+        },
+        {
+          "query": "What is an embedding?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 162,
+          "final_tokens": 80,
+          "reduction": 0.5062,
+          "uncertainty": [
+            0.343
+          ],
+          "support": [
+            0.814
+          ]
+        },
+        {
+          "query": "How does caching invalidation work for embeddings?",
+          "branch": "direct",
+          "abstained": false,
+          "answerable": true,
+          "baseline_tokens": 153,
+          "final_tokens": 52,
+          "reduction": 0.6601,
+          "uncertainty": [
+            0.181
+          ],
+          "support": [
+            0.262
+          ]
+        },
+        {
+          "query": "What is the capital city of Mongolia?",
+          "branch": "abstain_retrieve",
+          "abstained": true,
+          "answerable": false,
+          "baseline_tokens": 163,
+          "final_tokens": 163,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.958
+          ],
+          "support": [
+            0.0
+          ]
+        },
+        {
+          "query": "Who won the 2019 Formula One world championship?",
+          "branch": "abstain_retrieve",
+          "abstained": true,
+          "answerable": false,
+          "baseline_tokens": 164,
+          "final_tokens": 164,
+          "reduction": 0.0,
+          "uncertainty": [
+            0.787
+          ],
+          "support": [
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -655,26 +655,28 @@ $("openPapers").onclick = () => { note("paperStatus", ""); $("papers").showModal
 $("closePapers").onclick = () => $("papers").close();
 
 $("pickFile").onclick = () => $("file").click();
+// Choosing a file fills the form; it does not save. "Add paper" is the only button that
+// commits. The two used to be separate paths, so picking a PDF added it immediately and
+// the obvious next click submitted the still-empty form — reporting "too short" about a
+// paper that had just been added successfully.
 $("file").onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
   note("paperStatus", `Reading ${f.name}…`);
   try {
-    let data;
-    if (f.name.toLowerCase().endsWith(".pdf")) {
-      data = await api("/api/papers", {
-        method: "POST",
-        headers: { "Content-Type": "application/pdf", "X-Paper-Title": f.name.replace(/\.pdf$/i, "") },
-        body: await f.arrayBuffer()
-      });
-    } else {
-      data = await api("/api/papers", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: f.name.replace(/\.txt$/i, ""), text: await f.text() })
-      });
-    }
-    renderPapers(data.papers);
-    note("paperStatus", `Added ${f.name}.`);
+    const text = f.name.toLowerCase().endsWith(".pdf")
+      ? (await api("/api/extract", {
+          method: "POST",
+          headers: { "Content-Type": "application/pdf" },
+          body: await f.arrayBuffer()
+        })).text
+      : await f.text();
+
+    $("body").value = text;
+    // Only fill the title if the reader has not written one — their wording beats a filename.
+    if (!$("title").value.trim()) $("title").value = f.name.replace(/\.(pdf|txt)$/i, "");
+    const words = text.trim().split(/\s+/).length.toLocaleString();
+    note("paperStatus", `Read ${words} words from ${f.name}. Check the title, then press “Add paper”.`);
   } catch (err) { note("paperStatus", err.message, true); }
   e.target.value = "";
 };

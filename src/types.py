@@ -65,13 +65,28 @@ class EvidenceUnit:
 
     span: Span
     text: str
+    # First-stage bi-encoder cosine. Kept separate from `rerank_score` because the
+    # uncertainty estimator is calibrated against this scale — overwriting it would
+    # silently redefine the compression budget as a side effect of a reranking change.
     retrieval_score: float = 0.0
+    # Second-stage cross-encoder score, when reranking is enabled. None means not reranked.
+    rerank_score: float | None = None
     uncertainty: float = 0.0
     token_count: int = 0
 
     def verify_against(self, corpus: Corpus) -> bool:
         """True if this unit's cached text still matches what its span resolves to."""
         return self.span.resolve(corpus) == self.text
+
+    @property
+    def rank_score(self) -> float:
+        """The score every stage orders by — reranked if available, retrieval otherwise.
+
+        Compression and restoration must agree on this, or reranking would be silently
+        undone: compression sorting by `retrieval_score` after a reranker had reordered
+        the candidates would discard exactly the work the reranker did.
+        """
+        return self.retrieval_score if self.rerank_score is None else self.rerank_score
 
 
 @dataclass
